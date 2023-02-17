@@ -2,7 +2,7 @@ package ru.clevertec.knyazev.dto;
 
 import java.math.BigDecimal;
 
-import ru.clevertec.knyazev.entity.Storage.Unit;
+import ru.clevertec.knyazev.entity.util.Unit;
 
 public class PurchaseDTO {
 	

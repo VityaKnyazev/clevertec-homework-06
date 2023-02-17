@@ -1,8 +1,23 @@
 package ru.clevertec.knyazev.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "product")
 public class Product {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Column(nullable = false, length = 60, unique = true)
 	private String description;
+
+	@Column(name = "is_auction", nullable = false)
 	private Boolean isAuction;
 
 	public Product() {

@@ -37,6 +37,8 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public Product saveProduct(Product product) {
+		product.setId(PRODUCTS.size() + 1L);
+		
 		PRODUCTS.add(product);
 		return product;
 	}

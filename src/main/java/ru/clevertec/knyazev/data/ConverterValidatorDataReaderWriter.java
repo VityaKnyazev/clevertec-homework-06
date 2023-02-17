@@ -25,50 +25,55 @@ public class ConverterValidatorDataReaderWriter extends DataReaderWriterDecorato
 		super(dataReader, dataWriter);
 	}
 
+	@Override
 	public Map<ProductDTO, BigDecimal> readPurchases() throws IOException, ConverterException, ValidatorException {
-		fetchInputData();	
+		fetchInputData();
 		String[] purchaseData = inputData.keySet().iterator().next();
-		
+
 		Converter<Map<ProductDTO, BigDecimal>, String[]> purchasesConverter = new PurchaseConverter();
 		Map<ProductDTO, BigDecimal> purchases = purchasesConverter.convert(purchaseData);
-		
+
 		Validator<ProductDTO> productValidator = new ProductValidator();
 		Validator<BigDecimal> productQuantityValidator = new ProductQuantityValidator();
-		
+
 		for (Map.Entry<ProductDTO, BigDecimal> purchase : purchases.entrySet()) {
 			productValidator.validate(purchase.getKey());
 			productQuantityValidator.validate(purchase.getValue());
 		}
-		
-		return purchases;		
+
+		return purchases;
 	}
-	
-	public Set<DiscountCardDTO> readDiscountCards() throws IOException, ConverterException, ValidatorException {
+
+	@Override
+	public Set<DiscountCardDTO> readDiscountCards() throws IOException, ConverterException {
 		fetchInputData();
 		String[] discountCardsData = inputData.values().iterator().next();
-		
+
 		Converter<Set<DiscountCardDTO>, String[]> discountCardsConverter = new CardsConverter();
 		Set<DiscountCardDTO> discauntCards = discountCardsConverter.convert(discountCardsData);
-		
+
 		Validator<DiscountCardDTO> discauntCardsValidator = new DiscountCardNumberValidator();
-		
+
 		Iterator<DiscountCardDTO> iterator = discauntCards.iterator();
-		
+
 		while (iterator.hasNext()) {
-			discauntCardsValidator.validate(iterator.next());
+			try {
+				discauntCardsValidator.validate(iterator.next());
+			} catch (ValidatorException e) {
+				//logger.error(e);
+				iterator.remove();
+			}
 		}
-		
-		
+
 		return discauntCards;
 	}
-	
 
 	private Map<String[], String[]> fetchInputData() throws IOException {
-		
+
 		if (inputData == null) {
 			inputData = readData();
 		}
-		
+
 		return inputData;
 	}
 

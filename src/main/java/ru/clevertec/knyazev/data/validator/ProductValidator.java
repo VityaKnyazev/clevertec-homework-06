@@ -8,8 +8,9 @@ public class ProductValidator implements Validator<ProductDTO> {
 
 	@Override
 	public void validate(ProductDTO productDTO) throws ValidatorException {
-		if (productDTO.getId() < ID_MIN_VALUE) {
-			throw new ValidatorException("Error in id value. id=" + productDTO.getId() + ". Id must be equals or above 1");
+		if (productDTO == null || productDTO.getId() == null ||  (productDTO.getId() < ID_MIN_VALUE)) {
+			Long id = (productDTO == null) ? null : productDTO.getId();
+			throw new ValidatorException("Error in id value. id=" + id + ". Id must be equals or above 1");
 		}
 	}
 

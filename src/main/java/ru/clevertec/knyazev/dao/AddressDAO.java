@@ -10,5 +10,5 @@ import ru.clevertec.knyazev.entity.Address;
  */
 
 public interface AddressDAO {
-	Address getAddress();
+	Address findById(Long id);
 }

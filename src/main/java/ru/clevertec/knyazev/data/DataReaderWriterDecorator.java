@@ -1,9 +1,16 @@
 package ru.clevertec.knyazev.data;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Set;
 
-public class DataReaderWriterDecorator implements DataReader, DataWriter{
+import ru.clevertec.knyazev.data.exception.ConverterException;
+import ru.clevertec.knyazev.data.exception.ValidatorException;
+import ru.clevertec.knyazev.dto.DiscountCardDTO;
+import ru.clevertec.knyazev.dto.ProductDTO;
+
+public abstract class DataReaderWriterDecorator implements DataReader, DataWriter{
 	private DataReader dataReader;
 	private DataWriter dataWriter;
 	
@@ -23,4 +30,7 @@ public class DataReaderWriterDecorator implements DataReader, DataWriter{
 		return dataReader.readData();
 	}
 	
+	public abstract Set<DiscountCardDTO> readDiscountCards() throws IOException, ConverterException;
+	
+	public abstract Map<ProductDTO, BigDecimal> readPurchases() throws IOException, ConverterException, ValidatorException;
 }

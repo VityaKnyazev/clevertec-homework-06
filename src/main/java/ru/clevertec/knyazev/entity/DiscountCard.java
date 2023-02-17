@@ -2,37 +2,55 @@ package ru.clevertec.knyazev.entity;
 
 import java.util.Objects;
 
-public class DiscountCard implements Comparable<DiscountCard>{
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "discount_card")
+public class DiscountCard implements Comparable<DiscountCard> {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Column(nullable = false, length = 9, unique = true)
 	private String number;
+
+	@Column(name = "discount_value", nullable = false)
 	private int discountValue;
-	
+
+	public DiscountCard() {
+	}
+
 	public DiscountCard(Long id, String number, Integer discountValue) {
 		this.id = id;
 		this.number = number;
 		this.discountValue = discountValue;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
-	
+
 	public String getNumber() {
 		return number;
 	}
-	
+
 	public Integer getDiscountValue() {
 		return discountValue;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	
+
 	public void setDiscountValue(Integer discountValue) {
 		this.discountValue = discountValue;
 	}
@@ -46,14 +64,14 @@ public class DiscountCard implements Comparable<DiscountCard>{
 	public boolean equals(Object obj) {
 		if (obj == null)
 			return false;
-		
+
 		if (this == obj)
 			return true;
-		
+
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-			
+
 		DiscountCard other = (DiscountCard) obj;
 		return discountValue == other.discountValue && Objects.equals(id, other.id)
 				&& Objects.equals(number, other.number);
@@ -68,5 +86,5 @@ public class DiscountCard implements Comparable<DiscountCard>{
 	public int compareTo(DiscountCard anotherDiscountCard) {
 		return number.compareTo(anotherDiscountCard.getNumber());
 	}
-		
+
 }

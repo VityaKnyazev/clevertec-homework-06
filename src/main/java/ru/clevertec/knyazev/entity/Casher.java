@@ -1,19 +1,18 @@
 package ru.clevertec.knyazev.entity;
 
 public class Casher {
-	private Long casherId;
+	private Long id;
 
-	public Casher(Long casherId) {
-		this.casherId = casherId;
+	public Casher(Long id) {
+		this.id = id;
 	}
 
 	public Long getId() {
-		return casherId;
+		return id;
 	}
 
-	public void setId(Long casherId) {
-		this.casherId = casherId;
+	public void setId(Long id) {
+		this.id = id;
 	}
-	
 	
 }

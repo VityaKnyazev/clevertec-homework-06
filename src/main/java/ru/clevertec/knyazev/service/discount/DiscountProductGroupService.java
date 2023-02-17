@@ -10,15 +10,15 @@ import java.util.Map;
 import ru.clevertec.knyazev.entity.Storage;
 import ru.clevertec.knyazev.util.Settings;
 
-class DiscountProductGroupService extends AbstractDiscountService<Storage, BigDecimal>{
+public class DiscountProductGroupService extends AbstractDiscountService<Storage, BigDecimal>{
 
 	@Override
 	BigDecimal calculateDiscount(Collection<Storage> storeagesGroupProduct) {
 		BigDecimal discountSumValue = new BigDecimal(0);			
-		discountSumValue.setScale(Settings.PRICE_SCALE_VALUE, RoundingMode.HALF_UP);
+		discountSumValue = discountSumValue.setScale(Settings.PRICE_SCALE_VALUE, RoundingMode.HALF_UP);
 		
 		BigDecimal realProductGroupQuantity = new BigDecimal(0);
-		realProductGroupQuantity.setScale(Settings.QUANTITY_SCALE_VALUE, RoundingMode.HALF_UP);
+		realProductGroupQuantity = realProductGroupQuantity.setScale(Settings.QUANTITY_SCALE_VALUE, RoundingMode.HALF_UP);
 		
 		for (Storage storage : storeagesGroupProduct) {
 			realProductGroupQuantity = realProductGroupQuantity.add(storage.getQuantity());
@@ -26,7 +26,7 @@ class DiscountProductGroupService extends AbstractDiscountService<Storage, BigDe
 		
 		if ((realProductGroupQuantity.compareTo(Settings.PRODUCT_QUANTITY_FOR_DISCOUNT) == 0) || (realProductGroupQuantity.compareTo(Settings.PRODUCT_QUANTITY_FOR_DISCOUNT) == 1)) {
 			for (Storage storage : storeagesGroupProduct) {
-				discountSumValue = discountSumValue.add(storage.getPrice().divide(new BigDecimal(Settings.DISCOUNT_VALUE_PERCENT_FOR_PRODUCT_GROUP)));
+				discountSumValue = discountSumValue.add(storage.getPrice().multiply(storage.getQuantity()).multiply(new BigDecimal(Settings.DISCOUNT_VALUE_PERCENT_FOR_PRODUCT_GROUP)).divide(new BigDecimal(100)));
 			}
 		}
 		
@@ -49,7 +49,7 @@ class DiscountProductGroupService extends AbstractDiscountService<Storage, BigDe
 	@Override
 	public BigDecimal applyDiscount(Map<Long, List<Storage>> boughtProductsInStorages) {
 		BigDecimal totalDiscountProductGroupValue = new BigDecimal(0);
-		totalDiscountProductGroupValue.setScale(Settings.PRICE_SCALE_VALUE, RoundingMode.HALF_UP);
+		totalDiscountProductGroupValue = totalDiscountProductGroupValue.setScale(Settings.PRICE_SCALE_VALUE, RoundingMode.HALF_UP);
 		
 		if (boughtProductsInStorages == null || boughtProductsInStorages.isEmpty()) {
 			return totalDiscountProductGroupValue;

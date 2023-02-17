@@ -3,5 +3,5 @@ package ru.clevertec.knyazev.dao;
 import ru.clevertec.knyazev.entity.Shop;
 
 public interface ShopDAO {
-	Shop getShop();
+	Shop findById(Long id);
 }

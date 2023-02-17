@@ -7,7 +7,7 @@ import java.util.Map;
 
 import ru.clevertec.knyazev.dto.PurchaseDTO;
 import ru.clevertec.knyazev.entity.Storage;
-import ru.clevertec.knyazev.entity.Storage.Unit;
+import ru.clevertec.knyazev.entity.util.Unit;
 
 public class PurchaseConverter extends AbstractToDTOConverter<Map<Long, List<Storage>>, List<PurchaseDTO>> {
 

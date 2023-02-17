@@ -18,6 +18,10 @@ public class FileDataWriter implements DataWriter {
 	public void writeData(String data) throws IOException {
 		String file = Settings.OUTPUT_FOLDER + filename;
 		
+		if (data == null || data.isEmpty()) {
+			throw new IOException("Error on writing null or empty data");
+		}
+		
 		File dataFile = new File(file);
 		if (!dataFile.exists()) {
 			dataFile.createNewFile();

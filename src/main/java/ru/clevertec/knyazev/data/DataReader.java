@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface DataReader {
-	final static String CARD_PAR = "card-";
+	final String CARD_PREFIX = "card-";
 	
 	/**
 	 * 
@@ -28,7 +28,7 @@ public interface DataReader {
 		String[] data = inputData.split(" ");
 
 		for (String dataInput : data) {
-			if (dataInput.contains(CARD_PAR) && dataInput.startsWith(CARD_PAR)) {
+			if (dataInput.contains(CARD_PREFIX) && dataInput.startsWith(CARD_PREFIX)) {
 				cardsData.add(dataInput);
 			} else {
 				purchaseData.add(dataInput);

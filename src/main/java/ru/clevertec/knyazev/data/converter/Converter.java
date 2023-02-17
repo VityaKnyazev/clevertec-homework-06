@@ -1,8 +1,10 @@
 package ru.clevertec.knyazev.data.converter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import ru.clevertec.knyazev.data.exception.ConverterException;
+import ru.clevertec.knyazev.util.Settings;
 
 /**
  *
@@ -28,7 +30,9 @@ public interface Converter<T, U> {
 	}
 	
 	default BigDecimal convertToBigDecimal(String val) throws NumberFormatException {
-		return BigDecimal.valueOf(convertToFloat(val));
+		BigDecimal convertedVal = BigDecimal.valueOf(convertToFloat(val));
+		convertedVal = convertedVal.setScale(Settings.QUANTITY_SCALE_VALUE, RoundingMode.HALF_UP);
+		return convertedVal;
 	}
 	
 }

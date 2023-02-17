@@ -12,16 +12,22 @@ public class CardsConverter implements Converter<Set<DiscountCardDTO>, String[]>
 	@Override
 	public Set<DiscountCardDTO> convert(String[] cardsData) throws ConverterException {
 		Set<DiscountCardDTO> discountCardsDTO = new HashSet<>();
-		
-		for (int i = 0; i < cardsData.length; i++) {
-			if (cardsData[i].contains(CARD_PREFIX) && cardsData[i].startsWith(CARD_PREFIX)) {
-				String cardNumber = cardsData[i].substring(CARD_PREFIX.length());
-				discountCardsDTO.add(new DiscountCardDTO(cardNumber));
-			} else {
-				throw new ConverterException("Error in card number format");
+
+		if ((cardsData != null) && (cardsData.length > 0)) {
+			if ((cardsData.length == 1) && (cardsData[0].equals("") || cardsData[0].equals(" "))) {
+				return discountCardsDTO;
+			}
+			
+			for (int i = 0; i < cardsData.length; i++) {
+				if (cardsData[i].contains(CARD_PREFIX) && cardsData[i].startsWith(CARD_PREFIX)) {
+					String cardNumber = cardsData[i].substring(CARD_PREFIX.length());
+					discountCardsDTO.add(new DiscountCardDTO(cardNumber));
+				} else {
+					throw new ConverterException("Error in card number format");
+				}
 			}
 		}
-		
+
 		return discountCardsDTO;
 	}
 }

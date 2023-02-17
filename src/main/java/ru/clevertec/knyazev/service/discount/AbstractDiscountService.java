@@ -5,14 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import ru.clevertec.knyazev.entity.Storage;
-import ru.clevertec.knyazev.service.exception.ServiceException;
 
 /**
  * 
  * Abstract class using for calculating discount
  * 
  */
-abstract class AbstractDiscountService<T, V> implements DiscountService<T, V>{
+abstract class AbstractDiscountService<T, V> implements DiscountService {
 	private static final int MAX_TOTAL_CARDS_DISCOUNT_PERCENT = 45;
 	
 	/**
@@ -29,7 +28,7 @@ abstract class AbstractDiscountService<T, V> implements DiscountService<T, V>{
 	 *                        discount will be calculating
 	 * @return representation <V> of discount calculating
 	 */
-	abstract V calculateDiscount(Collection<T> discountObjects) throws ServiceException;
+	abstract V calculateDiscount(Collection<T> discountObjects);
 	
 	/**
 	 * 
@@ -40,7 +39,5 @@ abstract class AbstractDiscountService<T, V> implements DiscountService<T, V>{
 	Integer calculateFinalCardsDiscount(Integer totalCardsDiscount) {
 		return totalCardsDiscount >= MAX_TOTAL_CARDS_DISCOUNT_PERCENT ? MAX_TOTAL_CARDS_DISCOUNT_PERCENT
 				: totalCardsDiscount;
-	}
-
-	
+	}	
 }

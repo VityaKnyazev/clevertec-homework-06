@@ -20,7 +20,7 @@ import org.mockito.Mockito;
 import ru.clevertec.knyazev.dao.StorageDAO;
 import ru.clevertec.knyazev.entity.Product;
 import ru.clevertec.knyazev.entity.Storage;
-import ru.clevertec.knyazev.entity.Storage.Unit;
+import ru.clevertec.knyazev.entity.util.Unit;
 import ru.clevertec.knyazev.service.exception.ServiceException;
 
 public class StorageServiceImplTests {

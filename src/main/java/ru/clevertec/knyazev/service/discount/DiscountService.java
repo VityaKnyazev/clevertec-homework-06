@@ -12,7 +12,7 @@ import ru.clevertec.knyazev.entity.Storage;
  *
  */
 
-public interface DiscountService<T, V> {
+public interface DiscountService {
 
 	/**
 	 * 

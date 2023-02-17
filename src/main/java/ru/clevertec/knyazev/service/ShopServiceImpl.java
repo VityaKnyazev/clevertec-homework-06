@@ -12,7 +12,7 @@ public class ShopServiceImpl implements ShopService {
 
 	@Override
 	public Shop showShop() {
-		return shopDAO.getShop();
+		return shopDAO.findById(1L);
 	}
 
 }

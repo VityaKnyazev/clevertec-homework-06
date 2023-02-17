@@ -38,6 +38,8 @@ public class DiscountCardDAOImpl implements DiscountCardDAO {
 
 	@Override
 	public DiscountCard saveDiscountCard(DiscountCard discountCard) {
+		discountCard.setId(DISCOUNT_CARDS.size() + 1L);
+		
 		DISCOUNT_CARDS.add(discountCard);
 		return discountCard;
 	}

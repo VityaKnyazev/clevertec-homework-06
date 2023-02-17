@@ -8,7 +8,7 @@ public class DiscountCardNumberValidator implements Validator<DiscountCardDTO>{
 
 	@Override
 	public void validate(DiscountCardDTO t) throws ValidatorException {
-		if (t == null || t.getNumber().length() == 0 || t.getNumber().length() != LENGTH) {
+		if (t == null || t.getNumber() == null || t.getNumber().length() != LENGTH) {
 			throw new ValidatorException("Error in discount card length. Discount card length must be equals to " + LENGTH);
 		}
 	}

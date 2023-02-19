@@ -1,5 +1,8 @@
 package ru.clevertec.knyazev.entity;
 
+import lombok.Builder;
+
+@Builder
 public class Casher {
 	private Long id;
 

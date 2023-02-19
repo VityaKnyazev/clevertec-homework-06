@@ -13,11 +13,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import ru.clevertec.knyazev.entity.converter.UnitTypeConverter;
 import ru.clevertec.knyazev.entity.util.Unit;
 
 @Entity
 @Table(name = "storage")
+@Builder
 public class Storage implements Comparable<Storage> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

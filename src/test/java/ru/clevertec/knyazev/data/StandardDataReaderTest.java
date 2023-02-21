@@ -1,8 +1,8 @@
 package ru.clevertec.knyazev.data;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -11,11 +11,11 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class StandardDataReaderTests {
+public class StandardDataReaderTest {
 	private StandardDataReader standardDataReader;
 
 	@Test
-	public void whenReadData() throws IOException {
+	public void checkReadDataShouldReturnDataMap() throws IOException {
 		String[] args = { "5-8", "4-7", "9-6", "card-256987452", "card-256254698", "6-12.58" };
 
 		standardDataReader = new StandardDataReader(args);
@@ -30,32 +30,34 @@ public class StandardDataReaderTests {
 				put(purchases, cards);
 			}
 		};
-		
+
 		assertAll(() -> {
-			assertTrue(!gottenData.isEmpty());
-			assertTrue(gottenData.size() == 1);
+			assertThat(gottenData).isNotEmpty();
+			assertThat(gottenData).hasSize(1);
 		});
-		
-		assertTrue(Arrays.equals(expectedData.keySet().iterator().next(), gottenData.keySet().iterator().next()));
-		assertTrue(Arrays.equals(expectedData.values().iterator().next(), gottenData.values().iterator().next()));
+
+		assertThat(Arrays.equals(expectedData.keySet().iterator().next(), gottenData.keySet().iterator().next()))
+				.isTrue();
+		assertThat(Arrays.equals(expectedData.values().iterator().next(), gottenData.values().iterator().next()))
+				.isTrue();
 	}
-	
+
 	@Test
-	public void whenReadDataOnNull() {
+	public void checkReadDataOnNullArgsShouldThrowIOException() {
 		String[] args = null;
 
 		standardDataReader = new StandardDataReader(args);
-		
-		assertThrows(IOException.class, () -> standardDataReader.readData());
+
+		assertThatThrownBy(() -> standardDataReader.readData()).isInstanceOf(IOException.class);
 	}
-	
+
 	@Test
-	public void whenReadDataOnEmpty() {
+	public void checkReadDataOnEmptyArgsShouldThrowIOException() {
 		String[] args = {};
 
 		standardDataReader = new StandardDataReader(args);
-		
-		assertThrows(IOException.class, () -> standardDataReader.readData());
+
+		assertThatThrownBy(() -> standardDataReader.readData()).isInstanceOf(IOException.class);
 	}
 
 }

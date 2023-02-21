@@ -1,16 +1,13 @@
 package ru.clevertec.knyazev.data;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Map;
 
 import org.junit.jupiter.api.AfterEach;
@@ -19,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import ru.clevertec.knyazev.util.Settings;
 
-public class FileDataReaderTests {
+public class FileDataReaderTest {
 	private Path purchasefileDir;
 	private Path cardsfileDir;
 	private String purchasefileName = "testPurchase.txt";
@@ -43,54 +40,54 @@ public class FileDataReaderTests {
 	}
 
 	@Test
-	public void whenReadData() throws IOException {
-		String inputPurchaseData = "1-3 4-5 8-12.3 1-15.6";
-		String inputCardsData = "card-156954 card-126554187";
+	public void checkReadDataShouldReturnMapWithProductAndCardData() throws IOException {
+		String expectedInputPurchaseData = "1-3 4-5 8-12.3 1-15.6";
+		String expectedInputCardsData = "card-156954 card-126554187";
 		
-		Files.writeString(purchasefileDir, inputPurchaseData);
-		Files.writeString(cardsfileDir, inputCardsData);
+		Files.writeString(purchasefileDir, expectedInputPurchaseData);
+		Files.writeString(cardsfileDir, expectedInputCardsData);
 		
 		Map<String[], String[]> data = fileDataReader.readData();
 		
 		assertAll(() -> {
-			assertNotNull(data);
-			assertEquals(1, data.size());
+			assertThat(data).isNotNull();
+			assertThat(data).hasSize(1);
 		});
 		
-		assertTrue(Arrays.equals(inputPurchaseData.split(" "), data.keySet().iterator().next()));
-		assertTrue(Arrays.equals(inputCardsData.split(" "), data.values().iterator().next()));
+		assertThat(data.keySet().iterator().next()).isEqualTo(expectedInputPurchaseData.split(" "));
+		assertThat(data.values().iterator().next()).isEqualTo(expectedInputCardsData.split(" "));
 	}
 	
 	@Test
-	public void whenReadDataNotOnTwoFiles() {
-		assertThrows(IOException.class, () -> new FileDataReader(new String[] {"first", "second", "third"}));
+	public void checkReadDataNotOnTwoFilesShouldThrowIOException() {
+		assertThatThrownBy(() -> new FileDataReader(new String[] {"first", "second", "third"})).isInstanceOf(IOException.class);
 	}
 	
 	@Test
-	public void whenReadDataOnEmptyFiles() {
-		assertThrows(IOException.class, () -> new FileDataReader(new String[] {}));
+	public void checkReadDataOnEmptyFilesShouldThrowIOException() {
+		assertThatThrownBy(() -> new FileDataReader(new String[] {})).isInstanceOf(IOException.class);
 	}
 	
 	@Test
-	public void whenReadDataOnEmptyPurchaseData() throws IOException {
+	public void checkReadDataOnEmptyPurchaseDataShouldThrowIOException() throws IOException {
 		String inputPurchaseData = "";
 		String inputCardsData = "card-156954 card-126554187";
 		
 		Files.writeString(purchasefileDir, inputPurchaseData);
 		Files.writeString(cardsfileDir, inputCardsData);
 		
-		assertThrows(IOException.class, () -> fileDataReader.readData());
+		assertThatThrownBy(() -> fileDataReader.readData()).isInstanceOf(IOException.class);
 	}
 	
 	@Test
-	public void whenReadDataOnSpacePurchaseData() throws IOException {
+	public void checkReadDataOnSpacePurchaseDataShouldThrowIOException() throws IOException {
 		String inputPurchaseData = " ";
 		String inputCardsData = "card-156954 card-126554187";
 		
 		Files.writeString(purchasefileDir, inputPurchaseData);
 		Files.writeString(cardsfileDir, inputCardsData);
 		
-		assertThrows(IOException.class, () -> fileDataReader.readData());
+		assertThatThrownBy(() -> fileDataReader.readData()).isInstanceOf(IOException.class);
 	}
 	
 }

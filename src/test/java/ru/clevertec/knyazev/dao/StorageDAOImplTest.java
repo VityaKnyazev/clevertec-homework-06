@@ -64,8 +64,7 @@ public class StorageDAOImplTest {
 	public void checkGetProductQuantityInStoragesOnNullIdShouldReturnZero() {
 		final Long inputProductId = null;
 
-		BigDecimal expectedProductQuantity = new BigDecimal("0");
-		expectedProductQuantity = expectedProductQuantity.setScale(3, RoundingMode.HALF_UP);
+		BigDecimal expectedProductQuantity = new BigDecimal("0").setScale(3, RoundingMode.HALF_UP);
 
 		BigDecimal actualProductQuantity = storageDAOImpl.getProductQuantityInStorages(inputProductId);
 
@@ -76,8 +75,7 @@ public class StorageDAOImplTest {
 	public void checkGetProductQuantityInStoragesOnBadIdShoulReturnZero() {
 		final Long inputProductId = 0L;
 
-		BigDecimal expectedProductQuantity = new BigDecimal("0");
-		expectedProductQuantity = expectedProductQuantity.setScale(3, RoundingMode.HALF_UP);
+		BigDecimal expectedProductQuantity = new BigDecimal("0").setScale(3, RoundingMode.HALF_UP);
 
 		BigDecimal actualProductQuantity = storageDAOImpl.getProductQuantityInStorages(inputProductId);
 

@@ -1,0 +1,124 @@
+package ru.clevertec.knyazev.cache;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.ListIterator;
+import java.util.Map;
+
+/**
+ * 
+ * Current class is a realization of LRU caching mechanism.
+ * Value is in cache while using. When it become old than V value and K key
+ * will be deleted from cache.
+ * 
+ * @author Vitya Knyazev
+ *
+ * @param <K> key on which V value storing in cache.
+ * @param <V> value that storing in cache.
+ */
+public class LRUCache<K, V> implements Cache<K, V> {
+	private final Integer maxCahcheSize;
+
+	private Map<K, V> lruCache;
+	private LinkedList<V> cacheOld;
+
+	public LRUCache(Integer maxCahcheSize) {
+		this.maxCahcheSize = maxCahcheSize;
+		
+		lruCache = new HashMap<>();
+		cacheOld = new LinkedList<>();
+	}
+
+	@Override
+	public void put(K key, V value) {
+		Integer lruCacheSize = lruCache.size();
+
+		if (lruCache.containsKey(key)) {
+			V oldValue = lruCache.get(key);
+
+			if (!oldValue.equals(value)) {
+				lruCache.replace(key, value);
+				replaceValueInCacheOld(oldValue, value);
+			}
+		} else {
+			if (lruCacheSize < maxCahcheSize) {
+				lruCache.put(key, value);
+				cacheOld.addFirst(value);
+			} else {
+				V oldValue = cacheOld.removeLast();
+				K oldKey = lruCache.entrySet().stream().filter(entry -> entry.getValue().equals(oldValue))
+						.map(entry -> entry.getKey()).findFirst().get();
+				if (lruCache.remove(oldKey, oldValue)) {
+					lruCache.put(key, value);
+					cacheOld.addFirst(value);
+				}
+			}
+		}
+	}
+
+	@Override
+	public V get(K key) {
+		V value = null;
+
+		if (lruCache.containsKey(key)) {
+			value = lruCache.get(key);
+			rebaseCacheOld(value);
+		}
+
+		return value;
+	}
+
+	/**
+	 * 
+	 * Replace value in time cache when value changing on existing K key.
+	 * 
+	 * @param oldValue V value that will be replaced
+	 * @param newValue V value is a new value that'll be storing.
+	 */
+	private void replaceValueInCacheOld(V oldValue, V newValue) {
+
+		if (cacheOld.getLast().equals(oldValue)) {
+			cacheOld.removeLast();
+		} else {
+			Iterator<V> cacheOldIterator = cacheOld.iterator();
+
+			while (cacheOldIterator.hasNext()) {
+
+				if (cacheOldIterator.next().equals(oldValue)) {
+					cacheOldIterator.remove();
+					break;
+				}
+			}
+
+		}
+
+		cacheOld.addFirst(newValue);
+	}
+
+	/**
+	 * 
+	 * Rebasing time cache when using V value that saving in cache
+	 * Than value becomes "younger".
+	 * 
+	 * @param value V that should be move to the head of cache as the most "young" 
+	 */
+	private void rebaseCacheOld(V value) {
+		if (cacheOld.getLast().equals(value)) {
+			cacheOld.removeLast();
+		} else {
+			ListIterator<V> cacheOldIterator = cacheOld.listIterator();
+
+			while (cacheOldIterator.hasNext()) {
+
+				if (value.equals(cacheOldIterator.next())) {
+					cacheOldIterator.remove();
+					break;
+				}
+			}
+		}
+
+		cacheOld.addFirst(value);
+	}
+
+}

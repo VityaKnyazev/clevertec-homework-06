@@ -25,9 +25,12 @@ public class DiscountCardDAOJPATest {
 
 	@Test
 	public void checkGetDiscountCardByNumberShouldReturnDiscountCard() {
-		final String inputDiscountCardNumber = "123456789";
-		DiscountCard expectedDiscountCard = DiscountCard.builder().id(2L).number(inputDiscountCardNumber)
-				.discountValue(4).build();
+		String inputDiscountCardNumber = "123456789";
+		DiscountCard expectedDiscountCard = DiscountCard.builder()
+				.id(2L)
+				.number(inputDiscountCardNumber)
+				.discountValue(4)
+				.build();
 
 		Mockito.when(entityManagerMock.createQuery(Mockito.anyString())).thenReturn(queryMock);
 		Mockito.when(queryMock.setParameter(Mockito.anyInt(), Mockito.anyString())).thenReturn(queryMock);
@@ -40,37 +43,43 @@ public class DiscountCardDAOJPATest {
 
 	@Test
 	public void checkGetDiscountCardByNumberOnNullNumberShouldReturnNull() {
-		final String inputDiscountCardNumber = null;
+		String inputDiscountCardNumber = null;
 
 		assertThat(discountCardDAOJPA.getDiscountCardByNumber(inputDiscountCardNumber)).isNull();
 	}
 
 	@Test
 	public void checkGetDiscountCardByNumberOnBadNumberShouldReturnNull() {
-		final String inputDiscountCardNumber = "";
+		String inputDiscountCardNumber = "";
 
 		assertThat(discountCardDAOJPA.getDiscountCardByNumber(inputDiscountCardNumber)).isNull();
 	}
 
 	@Test
 	public void checkSaveDiscountCardShouldReturnDiscountCard() {
-		final Long savingDiscountCardId = null;
-		DiscountCard savingDiscountCard = DiscountCard.builder().id(savingDiscountCardId).number("123456321")
-				.discountValue(4).build();
+		Long savingDiscountCardId = null;
+		DiscountCard savingDiscountCard = DiscountCard.builder()
+				.id(savingDiscountCardId)
+				.number("123456321")
+				.discountValue(4)
+				.build();
 
 		Mockito.doNothing().when(entityManagerMock).persist(Mockito.any(DiscountCard.class));
 
 		DiscountCard actualDiscountCard = discountCardDAOJPA.saveDiscountCard(savingDiscountCard);
 
-		Mockito.verify(entityManagerMock, Mockito.times(1)).persist(Mockito.any(DiscountCard.class));
+		Mockito.verify(entityManagerMock).persist(Mockito.any(DiscountCard.class));
 		assertThat(actualDiscountCard).isEqualTo(savingDiscountCard);
 	}
 
 	@Test
 	public void checkSaveDiscountCardOnNotNullIdShouldReturnNull() {
-		final Long savingDiscountCardId = 1L;
-		DiscountCard savingDiscountCard = DiscountCard.builder().id(savingDiscountCardId).number("123456321")
-				.discountValue(4).build();
+		Long savingDiscountCardId = 1L;
+		DiscountCard savingDiscountCard = DiscountCard.builder()
+				.id(savingDiscountCardId)
+				.number("123456321")
+				.discountValue(4)
+				.build();
 
 		Mockito.verify(entityManagerMock, never()).persist(Mockito.any(DiscountCard.class));
 		assertThat(discountCardDAOJPA.saveDiscountCard(savingDiscountCard)).isNull();
@@ -84,7 +93,7 @@ public class DiscountCardDAOJPATest {
 		Mockito.when(queryMock.setParameter(Mockito.anyInt(), Mockito.anyString())).thenReturn(queryMock);
 		Mockito.when(queryMock.getSingleResult()).thenReturn(resultQuantity);
 
-		final String inputDiscountCardNumber = "123456789";
+		String inputDiscountCardNumber = "123456789";
 		
 		boolean actualIsDiscountCardExists = discountCardDAOJPA.isDiscountCardExists(inputDiscountCardNumber);
 		
@@ -99,7 +108,7 @@ public class DiscountCardDAOJPATest {
 		Mockito.when(queryMock.setParameter(Mockito.anyInt(), Mockito.anyString())).thenReturn(queryMock);
 		Mockito.when(queryMock.getSingleResult()).thenReturn(resultQuantity);
 
-		final String inputDiscountCardNumber = "323456789";
+		String inputDiscountCardNumber = "323456789";
 		
 		boolean actualIsDiscountCardExists = discountCardDAOJPA.isDiscountCardExists(inputDiscountCardNumber);
 		

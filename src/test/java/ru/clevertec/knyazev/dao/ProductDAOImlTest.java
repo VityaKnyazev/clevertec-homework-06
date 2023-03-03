@@ -21,10 +21,10 @@ public class ProductDAOImlTest {
 
 	@Test
 	public void checkGetProductByIdShouldReturnProduct() {
-		final Long inputProductId = 2L;
-		final Product actualProduct = productDAOImpl.getProductById(inputProductId);
+		Long inputProductId = 2L;
+		Product actualProduct = productDAOImpl.getProductById(inputProductId);
 
-		final Long expectedProductId = 2L;
+		Long expectedProductId = 2L;
 
 		assertAll(() -> {
 			assertThat(actualProduct).isNotNull();

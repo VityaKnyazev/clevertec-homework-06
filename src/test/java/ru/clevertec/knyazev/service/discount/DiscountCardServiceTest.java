@@ -54,9 +54,21 @@ public class DiscountCardServiceTest {
 			private static final long serialVersionUID = 5454512L;
 
 			{
-				add(DiscountCard.builder().id(1L).number("12F589655").discountValue(3).build());
-				add(DiscountCard.builder().id(2L).number("12F589656").discountValue(2).build());
-				add(DiscountCard.builder().id(3L).number("12F589657").discountValue(1).build());
+				add(DiscountCard.builder()
+						.id(1L)
+						.number("12F589655")
+						.discountValue(3)
+						.build());
+				add(DiscountCard.builder()
+						.id(2L)
+						.number("12F589656")
+						.discountValue(2)
+						.build());
+				add(DiscountCard.builder()
+						.id(3L)
+						.number("12F589657")
+						.discountValue(1)
+						.build());
 			}
 		};
 
@@ -83,17 +95,34 @@ public class DiscountCardServiceTest {
 					return null;
 				});
 
-		Product product1 = new Product(1L,
-				"On this product must be applying only discount that depends on its quantity", true);
-		Product product2 = new Product(2L, "On this product must be applying discount card only", false);
+		Product product1 = Product.builder()
+				.id(1L)
+				.description("On this product must be applying only discount that depends on its quantity")
+				.isAuction(true)
+				.build();
+		Product product2 = Product.builder()
+				.id(2L)
+				.description("On this product must be applying discount card only")
+				.isAuction(false)
+				.build();
 
 		List<Storage> discountCardProducts = new ArrayList<>() {
 			private static final long serialVersionUID = 1748625L;
 			{
-				add(Storage.builder().id(7L).product(product2).unit(Unit.шт).price(new BigDecimal(6.3))
-						.quantity(new BigDecimal(8)).build());
-				add(Storage.builder().id(9L).product(product2).unit(Unit.шт).price(new BigDecimal(4.32))
-						.quantity(new BigDecimal(6)).build());
+				add(Storage.builder()
+						.id(7L)
+						.product(product2)
+						.unit(Unit.pcs)
+						.price(new BigDecimal(6.3))
+						.quantity(new BigDecimal(8))
+						.build());
+				add(Storage.builder()
+						.id(9L)
+						.product(product2)
+						.unit(Unit.pcs)
+						.price(new BigDecimal(4.32))
+						.quantity(new BigDecimal(6))
+						.build());
 			}
 		};
 
@@ -101,10 +130,20 @@ public class DiscountCardServiceTest {
 			private static final long serialVersionUID = 185265L;
 
 			{
-				add(Storage.builder().id(10L).product(product1).unit(Unit.ед).price(new BigDecimal(5.21))
-						.quantity(new BigDecimal(3)).build());
-				add(Storage.builder().id(12L).product(product1).unit(Unit.ед).price(new BigDecimal(4.62))
-						.quantity(new BigDecimal(2)).build());
+				add(Storage.builder()
+						.id(10L)
+						.product(product1)
+						.unit(Unit.unit)
+						.price(new BigDecimal(5.21))
+						.quantity(new BigDecimal(3))
+						.build());
+				add(Storage.builder()
+						.id(12L)
+						.product(product1)
+						.unit(Unit.unit)
+						.price(new BigDecimal(4.62))
+						.quantity(new BigDecimal(2))
+						.build());
 			}
 		};
 
@@ -129,7 +168,7 @@ public class DiscountCardServiceTest {
 
 	@Test
 	public void checkApplyDiscountOnNullBoughtProductsShouldReturnZero() {
-		final Map<Long, List<Storage>> boughtProductsInStorages = null;
+		Map<Long, List<Storage>> boughtProductsInStorages = null;
 
 		BigDecimal expectedDiscountValue = new BigDecimal(0);
 		BigDecimal actualDiscountValue = discountCardService.applyDiscount(boughtProductsInStorages);
@@ -139,7 +178,7 @@ public class DiscountCardServiceTest {
 
 	@Test
 	public void  checkApplyDiscountOnEmptyBoughtProductsShouldReturnZero() {
-		final Map<Long, List<Storage>> boughtProductsInStorages = new HashMap<>();
+		Map<Long, List<Storage>> boughtProductsInStorages = new HashMap<>();
 
 		BigDecimal expectedDiscountValue = new BigDecimal(0);
 		BigDecimal actualDiscountValue = discountCardService.applyDiscount(boughtProductsInStorages);

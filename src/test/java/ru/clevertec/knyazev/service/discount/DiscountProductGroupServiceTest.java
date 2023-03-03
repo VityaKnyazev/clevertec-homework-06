@@ -33,9 +33,9 @@ public class DiscountProductGroupServiceTest {
 		List<Storage> discountCardProducts = new ArrayList<>() {
 			private static final long serialVersionUID = 1748625L;
 			{
-				add(Storage.builder().id(7L).product(product2).unit(Unit.шт).price(new BigDecimal(6.3))
+				add(Storage.builder().id(7L).product(product2).unit(Unit.pcs).price(new BigDecimal(6.3))
 						.quantity(new BigDecimal(8)).build());
-				add(Storage.builder().id(9L).product(product2).unit(Unit.шт).price(new BigDecimal(4.32))
+				add(Storage.builder().id(9L).product(product2).unit(Unit.pcs).price(new BigDecimal(4.32))
 						.quantity(new BigDecimal(6)).build());
 			}
 		};
@@ -44,9 +44,9 @@ public class DiscountProductGroupServiceTest {
 			private static final long serialVersionUID = 185265L;
 
 			{
-				add(Storage.builder().id(10L).product(product1).unit(Unit.ед).price(new BigDecimal(5.21))
+				add(Storage.builder().id(10L).product(product1).unit(Unit.unit).price(new BigDecimal(5.21))
 						.quantity(new BigDecimal(3)).build());
-				add(Storage.builder().id(12L).product(product1).unit(Unit.ед).price(new BigDecimal(4.62))
+				add(Storage.builder().id(12L).product(product1).unit(Unit.unit).price(new BigDecimal(4.62))
 						.quantity(new BigDecimal(2)).build());
 			}
 		};
@@ -72,7 +72,7 @@ public class DiscountProductGroupServiceTest {
 
 	@Test
 	public void checkApplyDiscountOnNullBoughtProductsShouldReturnZero() {
-		final Map<Long, List<Storage>> boughtProductsInStorages = null;
+		Map<Long, List<Storage>> boughtProductsInStorages = null;
 
 		BigDecimal expectedDiscountValue = new BigDecimal(0);
 		BigDecimal actualDiscountValue = discountProductGroupServise.applyDiscount(boughtProductsInStorages);
@@ -82,7 +82,7 @@ public class DiscountProductGroupServiceTest {
 
 	@Test
 	public void  checkApplyDiscountOnEmptyBoughtProductsShouldReturnZero() {
-		final Map<Long, List<Storage>> boughtProductsInStorages = new HashMap<>();
+		Map<Long, List<Storage>> boughtProductsInStorages = new HashMap<>();
 
 		BigDecimal expectedDiscountValue = new BigDecimal(0);
 		BigDecimal actualDiscountValue = discountProductGroupServise.applyDiscount(boughtProductsInStorages);

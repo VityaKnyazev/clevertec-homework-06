@@ -41,21 +41,37 @@ public class StorageServiceImplTest {
 		public void checkBuyProductFromStoragesShouldReturnBoughtStoragesList() throws ServiceException {
 			BigDecimal productQuantityInStorages = new BigDecimal(17.4, MathContext.DECIMAL32);
 
-			Product product1 = new Product(1L, "Рассыпчатая мука", false);
+			Product product1 = Product.builder()
+					.id(1L)
+					.description("Рассыпчатая мука")
+					.isAuction(false)
+					.build();
 
 			List<Storage> storages = new ArrayList<>() {
 				private static final long serialVersionUID = -2370284320759078343L;
 
 				{
-					add(Storage.builder().id(2L).product(product1).unit(Unit.кг)
+					add(Storage.builder()
+							.id(2L)
+							.product(product1)
+							.unit(Unit.kg)
 							.price(new BigDecimal(2.79, MathContext.DECIMAL32))
-							.quantity(new BigDecimal(4, MathContext.DECIMAL32)).build());
-					add(Storage.builder().id(3L).product(product1).unit(Unit.кг)
+							.quantity(new BigDecimal(4, MathContext.DECIMAL32))
+							.build());
+					add(Storage.builder()
+							.id(3L)
+							.product(product1)
+							.unit(Unit.kg)
 							.price(new BigDecimal(5.69, MathContext.DECIMAL32))
-							.quantity(new BigDecimal(8, MathContext.DECIMAL32)).build());
-					add(Storage.builder().id(8L).product(product1).unit(Unit.кг)
+							.quantity(new BigDecimal(8, MathContext.DECIMAL32))
+							.build());
+					add(Storage.builder()
+							.id(8L)
+							.product(product1)
+							.unit(Unit.kg)
 							.price(new BigDecimal(2.82, MathContext.DECIMAL32))
-							.quantity(new BigDecimal(5.4, MathContext.DECIMAL32)).build());
+							.quantity(new BigDecimal(5.4, MathContext.DECIMAL32))
+							.build());
 				}
 			};
 
@@ -81,7 +97,7 @@ public class StorageServiceImplTest {
 				return null;
 			}).when(storageDAOMock).deleteStorage(Mockito.longThat(id -> (id != null) && (id > 0L)));
 
-			final Long productId = 1L;
+			Long productId = 1L;
 
 			List<Storage> boughtStorages = storageService.buyProductFromStorages(productId, productQuantityInStorages);
 			BigDecimal realProductQuntity = boughtStorages.stream().map(storage -> storage.getQuantity())
@@ -99,21 +115,37 @@ public class StorageServiceImplTest {
 
 			BigDecimal productQuantityInStorages = new BigDecimal(17.4, MathContext.DECIMAL32);
 
-			Product product1 = new Product(1L, "Рассыпчатая мука", false);
+			Product product1 = Product.builder()
+					.id(1L)
+					.description("Рассыпчатая мука")
+					.isAuction(false)
+					.build();
 
 			List<Storage> storages = new ArrayList<>() {
-				private static final long serialVersionUID = -2370284320759078343L;
+				private static final long serialVersionUID = -137028432569851243L;
 
 				{
-					add(Storage.builder().id(2L).product(product1).unit(Unit.кг)
+					add(Storage.builder()
+							.id(2L)
+							.product(product1)
+							.unit(Unit.kg)
 							.price(new BigDecimal(2.79, MathContext.DECIMAL32))
-							.quantity(new BigDecimal(4, MathContext.DECIMAL32)).build());
-					add(Storage.builder().id(3L).product(product1).unit(Unit.кг)
+							.quantity(new BigDecimal(4, MathContext.DECIMAL32))
+							.build());
+					add(Storage.builder()
+							.id(3L)
+							.product(product1)
+							.unit(Unit.kg)
 							.price(new BigDecimal(5.69, MathContext.DECIMAL32))
-							.quantity(new BigDecimal(8, MathContext.DECIMAL32)).build());
-					add(Storage.builder().id(8L).product(product1).unit(Unit.кг)
+							.quantity(new BigDecimal(8, MathContext.DECIMAL32))
+							.build());
+					add(Storage.builder()
+							.id(8L)
+							.product(product1)
+							.unit(Unit.kg)
 							.price(new BigDecimal(2.82, MathContext.DECIMAL32))
-							.quantity(new BigDecimal(5.4, MathContext.DECIMAL32)).build());
+							.quantity(new BigDecimal(5.4, MathContext.DECIMAL32))
+							.build());
 				}
 			};
 
@@ -135,8 +167,8 @@ public class StorageServiceImplTest {
 				return storageForUpdate;
 			});
 
-			final Long productId = 1L;
-			final BigDecimal productQuantity = new BigDecimal(3.8, MathContext.DECIMAL32);
+			Long productId = 1L;
+			BigDecimal productQuantity = new BigDecimal(3.8, MathContext.DECIMAL32);
 
 			List<Storage> boughtStorages = storageService.buyProductFromStorages(productId, productQuantity);
 			BigDecimal stayInStorages = storages.stream().map(storage -> storage.getQuantity())
@@ -177,21 +209,37 @@ public class StorageServiceImplTest {
 
 	@Test
 	public void checkGetBoughtProductsTotalPriceShouldReturnTotalPrice() {
-		Product product1 = Product.builder().id(1L).description("Рассыпчатая мука").isAuction(false).build();
+		Product product1 = Product.builder()
+				.id(1L)
+				.description("Рассыпчатая мука")
+				.isAuction(false)
+				.build();
 
 		List<Storage> storages = new ArrayList<>() {
-			private static final long serialVersionUID = -2370284320759078343L;
+			private static final long serialVersionUID = -137028432569851243L;
 
 			{
-				add(Storage.builder().id(2L).product(product1).unit(Unit.кг)
+				add(Storage.builder()
+						.id(2L)
+						.product(product1)
+						.unit(Unit.kg)
 						.price(new BigDecimal(2.79, MathContext.DECIMAL32))
-						.quantity(new BigDecimal(4, MathContext.DECIMAL32)).build());
-				add(Storage.builder().id(3L).product(product1).unit(Unit.кг)
+						.quantity(new BigDecimal(4, MathContext.DECIMAL32))
+						.build());
+				add(Storage.builder()
+						.id(3L)
+						.product(product1)
+						.unit(Unit.kg)
 						.price(new BigDecimal(5.69, MathContext.DECIMAL32))
-						.quantity(new BigDecimal(8, MathContext.DECIMAL32)).build());
-				add(Storage.builder().id(8L).product(product1).unit(Unit.кг)
+						.quantity(new BigDecimal(8, MathContext.DECIMAL32))
+						.build());
+				add(Storage.builder()
+						.id(8L)
+						.product(product1)
+						.unit(Unit.kg)
 						.price(new BigDecimal(2.82, MathContext.DECIMAL32))
-						.quantity(new BigDecimal(5.4, MathContext.DECIMAL32)).build());
+						.quantity(new BigDecimal(5.4, MathContext.DECIMAL32))
+						.build());
 			}
 		};
 

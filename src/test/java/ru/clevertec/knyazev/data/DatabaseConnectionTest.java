@@ -35,8 +35,8 @@ public class DatabaseConnectionTest {
 
 	@Test
 	public void whenReadData() throws SQLException, IOException {
-		final int purchasesQuantity = 3;
-		final int discountCardsQuantity = 1;
+		int purchasesQuantity = 3;
+		int discountCardsQuantity = 1;
 		
 		Mockito.when(dbConnectionMock.getConnection()).thenReturn(connectionMock);
 		Mockito.when(connectionMock.prepareStatement(Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(preparedStatementMock);
@@ -49,11 +49,11 @@ public class DatabaseConnectionTest {
 		Mockito.when(resultSetMock.getFloat(Mockito.anyString())).thenReturn(3.256F, 5.258F, 4F);
 				
 		
-		final String dbDiscountCardNumber = "256987f45";	
+		String dbDiscountCardNumber = "256987f45";	
 		Mockito.when(resultSetMock.getString(Mockito.anyString())).thenReturn(dbDiscountCardNumber);
 		
-		final String[] expectedPurchases = {"1-3.256", "2-5.258", "3-4.0"};
-		final String[] expectedDiscountCards = {"card-256987f45"};
+		String[] expectedPurchases = {"1-3.256", "2-5.258", "3-4.0"};
+		String[] expectedDiscountCards = {"card-256987f45"};
 		
 		Map<String[], String[]> actualPurchaseDiscountMap = databaseDataReader.readData();
 		

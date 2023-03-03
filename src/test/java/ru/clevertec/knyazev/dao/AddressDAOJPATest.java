@@ -21,13 +21,18 @@ public class AddressDAOJPATest {
 
 	@Test
 	public void checkFindByIdShouldReturnAddress() {
-		final Address expectedAddress = Address.builder().id(2L).postalCode("2512665").country("Belarus").city("Minsk")
-				.street("Puskin prt.").buildingNumber("11").build();
+		Address expectedAddress = Address.builder()
+				.id(2L).postalCode("2512665")
+				.country("Belarus")
+				.city("Minsk")
+				.street("Puskin prt.")
+				.buildingNumber("11")
+				.build();
 
 		Mockito.when(entityManagerMock.find(Mockito.any(), Mockito.longThat(id -> (id != null) && (id > 0L))))
 				.thenReturn(expectedAddress);
 
-		final Long inputId = 2L;
+		Long inputId = 2L;
 		Address actualSavedAddress = addressDAOJPA.findById(inputId);
 
 		assertThat(actualSavedAddress).isEqualTo(expectedAddress);
@@ -35,13 +40,13 @@ public class AddressDAOJPATest {
 
 	@Test
 	public void checkFindByIdOnNullIdShouldReturnNull() {
-		final Long inputId = null;
+		Long inputId = null;
 		assertThat(addressDAOJPA.findById(inputId)).isNull();
 	}
 
 	@Test
 	public void checkFindByIdOnBadIdShouldReturnNull() {
-		final Long inputId = 0L;
+		Long inputId = 0L;
 		assertThat(addressDAOJPA.findById(inputId)).isNull();
 	}
 

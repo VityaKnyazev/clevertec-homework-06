@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -50,30 +49,63 @@ public class PurchaseServiceImplTest {
 
 	@Test
 	public void checkBuyPurchasesShouldReturnReceipt() throws ServiceException {
-		final Long inputProductId = 1L;
-		Product product = Product.builder().id(inputProductId).description("Рассыпчатая мука").isAuction(false).build();
+		Long inputProductId = 1L;
+		Product product = Product.builder()
+				.id(inputProductId)
+				.description("Рассыпчатая мука")
+				.isAuction(false)
+				.build();
 
 		List<Storage> storages = new ArrayList<>() {
 			private static final long serialVersionUID = -2370284320759078343L;
 
 			{
-				add(Storage.builder().id(4L).product(product).unit(Unit.кг).price(new BigDecimal(2.79))
-						.quantity(new BigDecimal(4)).build());
-				add(Storage.builder().id(5L).product(product).unit(Unit.кг).price(new BigDecimal(5.69))
-						.quantity(new BigDecimal(125.658)).build());
-				add(Storage.builder().id(6L).product(product).unit(Unit.кг).price(new BigDecimal(2.82))
-						.quantity(new BigDecimal(16)).build());
+				add(Storage.builder()
+						.id(4L)
+						.product(product)
+						.unit(Unit.kg)
+						.price(new BigDecimal(2.79))
+						.quantity(new BigDecimal(4))
+						.build());
+				add(Storage.builder()
+						.id(5L)
+						.product(product)
+						.unit(Unit.kg)
+						.price(new BigDecimal(5.69))
+						.quantity(new BigDecimal(125.658))
+						.build());
+				add(Storage.builder()
+						.id(6L)
+						.product(product)
+						.unit(Unit.kg)
+						.price(new BigDecimal(2.82))
+						.quantity(new BigDecimal(16))
+						.build());
 			}
 		};
 
 		BigDecimal totalPrice = storages.stream().map(storage -> storage.getQuantity().multiply(storage.getPrice()))
 				.reduce((a, b) -> a.add(b)).orElse(new BigDecimal(0));
 
-		Address address = Address.builder().id(1L).postalCode("212658").country("Belarus").city("Minsk")
-				.street("Malaya str").buildingNumber("12").build();
-		Shop shop = Shop.builder().id(1L).name("TestShop").address(address).phone("+375 29 689 23 56").build();
+		Address address = Address
+				.builder()
+				.id(1L)
+				.postalCode("212658")
+				.country("Belarus")
+				.city("Minsk")
+				.street("Malaya str")
+				.buildingNumber("12")
+				.build();
+		Shop shop = Shop.builder()
+				.id(1L)
+				.name("TestShop")
+				.address(address)
+				.phone("+375 29 689 23 56")
+				.build();
 
-		Casher casher = Casher.builder().id(1L).build();
+		Casher casher = Casher.builder()
+				.id(1L)
+				.build();
 
 		Mockito.when(storageServiceMock.buyProductFromStorages(Mockito.longThat(l -> (l != null) && (l > 0L)),
 				Mockito.any(BigDecimal.class))).thenReturn(storages);
@@ -113,9 +145,7 @@ public class PurchaseServiceImplTest {
 		assertThatThrownBy(() -> purchaseService.buyPurchases(productsDTO)).isInstanceOf(ServiceException.class).hasMessage("Error when buying purchases. Products are null or empty!");
 	}
 	
-	//TODO Correct method for this case: Map[1 -> ]. Fix here -> 52 if (boughtProductsInStorages.isEmpty())
 	@Test
-	@Disabled
 	public void checkBuyPurchasesWhenBoughtProductsIsEmptyShouldThrowServiceException() throws ServiceException {
 		List<Storage> storages = new ArrayList<>();
 

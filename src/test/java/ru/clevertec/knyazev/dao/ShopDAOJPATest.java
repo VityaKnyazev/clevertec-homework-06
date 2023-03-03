@@ -2,7 +2,6 @@ package ru.clevertec.knyazev.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.Mockito.only;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,19 +24,29 @@ public class ShopDAOJPATest {
 
 	@Test
 	public void checkFindByIdShouldReturnShop() {
-		final Address address = Address.builder().id(1L).postalCode("2512665").country("Belarus").city("Minsk")
-				.street("Puskin prt").buildingNumber("11").build();
-		final Shop expectedShop = Shop.builder().id(1L).name("testName shop").address(address).phone("+375 26 954 62 35")
+		Address address = Address.builder()
+				.id(1L)
+				.postalCode("2512665")
+				.country("Belarus")
+				.city("Minsk")
+				.street("Puskin prt")
+				.buildingNumber("11")
+				.build();
+		Shop expectedShop = Shop.builder()
+				.id(1L)
+				.name("testName shop")
+				.address(address)
+				.phone("+375 26 954 62 35")
 				.build();
 
 		Mockito.when(entityManagerMock.find(Mockito.any(), Mockito.longThat(id -> (id != null) && (id > 0L))))
 				.thenReturn(expectedShop);
 
-		final Long inputShopId = 1L;
+		Long inputShopId = 1L;
 		Shop actualShop = shopDAOJPA.findById(inputShopId);
 		
 		ArgumentCaptor<Long> lArg = ArgumentCaptor.forClass(Long.class);
-		Mockito.verify(entityManagerMock, only()).find(Mockito.any(), lArg.capture());
+		Mockito.verify(entityManagerMock).find(Mockito.any(), lArg.capture());
 		
 		assertAll(() -> {
 			assertThat(actualShop).isNotNull();
@@ -48,13 +57,13 @@ public class ShopDAOJPATest {
 
 	@Test
 	public void checkFindByIdOnNullIdShouldReturnNull() {
-		final Long inputShopId = null;
+		Long inputShopId = null;
 		assertThat(shopDAOJPA.findById(inputShopId)).isNull();
 	}
 
 	@Test
 	public void checkFindByIdOnBadIdShouldReturnNull() {
-		final Long inputShopId = 0L;
+		Long inputShopId = 0L;
 		assertThat(shopDAOJPA.findById(inputShopId)).isNull();
 	}
 }

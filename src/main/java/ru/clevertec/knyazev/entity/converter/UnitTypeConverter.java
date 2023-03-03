@@ -14,18 +14,18 @@ public class UnitTypeConverter implements AttributeConverter<Unit, String> {
 		}
 		
 		switch (unit) {
-		case г :
-			return Unit.г.name();
-		case кг :
-			return Unit.кг.name();
-		case ед :
-			return Unit.ед.name();
-		case т :
-			return Unit.т.name();
-		case шт :
-			return Unit.шт.name();
-		case л :
-			return Unit.л.name();
+		case g :
+			return Unit.g.name();
+		case kg :
+			return Unit.kg.name();
+		case unit :
+			return Unit.unit.name();
+		case t :
+			return Unit.t.name();
+		case pcs :
+			return Unit.pcs.name();
+		case l :
+			return Unit.l.name();
 		default:
 			throw new IllegalArgumentException(unit.name() + " not supported.");
 		}		
@@ -38,18 +38,18 @@ public class UnitTypeConverter implements AttributeConverter<Unit, String> {
 			throw new IllegalArgumentException("null not supported.");
 		}
 		
-		if (dbUnit.equals(Unit.г.name())) {
-			return Unit.г;
-		} else if (dbUnit.equals(Unit.кг.name())) {
-			return Unit.кг;
-		}  else if (dbUnit.equals(Unit.ед.name())) {
-			return Unit.ед;
-		}  else if (dbUnit.equals(Unit.т.name())) {
-			return Unit.т;
-		}  else if (dbUnit.equals(Unit.шт.name())) {
-			return Unit.шт;
-		}  else if (dbUnit.equals(Unit.л.name())) {
-			return Unit.л;
+		if (dbUnit.equals(Unit.g.name())) {
+			return Unit.g;
+		} else if (dbUnit.equals(Unit.kg.name())) {
+			return Unit.kg;
+		}  else if (dbUnit.equals(Unit.unit.name())) {
+			return Unit.unit;
+		}  else if (dbUnit.equals(Unit.t.name())) {
+			return Unit.t;
+		}  else if (dbUnit.equals(Unit.pcs.name())) {
+			return Unit.pcs;
+		}  else if (dbUnit.equals(Unit.l.name())) {
+			return Unit.l;
 		} else {
 			throw new IllegalArgumentException(dbUnit + " not supported.");
 		}	

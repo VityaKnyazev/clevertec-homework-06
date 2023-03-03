@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,29 +44,41 @@ public class ReceiptControllerTest {
 		mockMVC = MockMvcBuilders.standaloneSetup(receiptController).defaultRequest(MockMvcRequestBuilders.get("/"))
 				.build();
 
-		List<PurchaseDTO> purchases = new ArrayList<>() {
-			private static final long serialVersionUID = 7534980376943621763L;
+		receipt = new ReceiptBuilderImpl()
+				.setCasherIdWithDateTime(1L)
+				.setShop(Shop.builder()
+						.id(1L)
+						.name("TestShop")
+						.address(Address.builder()
+								.id(1L)
+								.postalCode("120589")
+								.country("Russia")
+								.city("MOSCOW")
+								.street("Chapaeva, str")
+								.buildingNumber("128")
+								.build())
+						.phone("+7xx 85 698 55")
+						.build())
+				.setPurchases(new ArrayList<>() {
+							  private static final long serialVersionUID = 7534980376943621763L;
 
-			{
-				add(new PurchaseDTO(new BigDecimal(3), Unit.шт, "Кофеинка темно-серая", new BigDecimal(2)));
-			}
-		};
-
-		Address Adddress = new Address(1L, "120589", "Russia", "MOSCOW", "Chapaeva, str", "128");
-		Shop shop = new Shop(1L, "TestShop", Adddress, "+7xx 85 698 55");
-
-		receipt = new ReceiptBuilderImpl().setCasherIdWithDateTime(1L).setShop(shop).setPurchases(purchases)
-				.setDiscountCardsValue(BigDecimal.ZERO).setProductGroupsDiscountValue(BigDecimal.ZERO)
-				.setTotalPrice(new BigDecimal(6)).setTotalDiscountPrice(new BigDecimal(6)).build();
+							  {
+								  	add(new PurchaseDTO(new BigDecimal(3), Unit.pcs, "Кофеинка темно-серая", new BigDecimal(2)));
+							  }})
+				.setDiscountCardsValue(BigDecimal.ZERO)
+				.setProductGroupsDiscountValue(BigDecimal.ZERO)
+				.setTotalPrice(new BigDecimal(6))
+				.setTotalDiscountPrice(new BigDecimal(6))
+				.build();
 	}
 
 	@Test
 	public void checkGetReceiptShouldReturnReceiptOkStatus() throws Exception {
-		final String purchaseParamName = "purchase";
-		final String purchaseParamValue = "1-3";
+		String purchaseParamName = "purchase";
+		String purchaseParamValue = "1-3";
 
-		final String discountCardParamName = "card";
-		final String discountCardParamValue = "card-123456789";
+		String discountCardParamName = "card";
+		String discountCardParamValue = "card-123456789";
 
 		Mockito.when(purchaseServiceMock.buyPurchases(Mockito.anyMap())).thenReturn(receipt);
 
@@ -75,8 +86,8 @@ public class ReceiptControllerTest {
 				.param(purchaseParamName, purchaseParamValue).param(discountCardParamName, discountCardParamValue))
 				.andReturn();
 
-		final int expectedStatus = 200;
-		final String expectedContentType = "text/plain;charset=utf-8";
+		int expectedStatus = 200;
+		String expectedContentType = "text/plain;charset=utf-8";
 
 		assertThat(result.getResponse().getContentType()).isEqualTo(expectedContentType);
 		assertThat(result.getResponse().getStatus()).isEqualTo(expectedStatus);
@@ -87,15 +98,15 @@ public class ReceiptControllerTest {
 
 		MvcResult result = mockMVC.perform(MockMvcRequestBuilders.get(RECEIPT_REQUEST)).andReturn();
 
-		final int expectedStatus = 400;
+		int expectedStatus = 400;
 
 		assertThat(result.getResponse().getStatus()).isEqualTo(expectedStatus);
 	}
 
 	@Test
 	public void checkGetReceiptOnEmptyPurchaseShouldReturn400Status() throws Exception {
-		final String purchaseParamName = "purchase";
-		final String purchaseParamValue = "";
+		String purchaseParamName = "purchase";
+		String purchaseParamValue = "";
 
 		Mockito.when(purchaseServiceMock.buyPurchases(Mockito.anyMap())).thenReturn(receipt);
 
@@ -103,18 +114,18 @@ public class ReceiptControllerTest {
 				.perform(MockMvcRequestBuilders.get(RECEIPT_REQUEST).param(purchaseParamName, purchaseParamValue))
 				.andReturn();
 
-		final int expectedStatus = 400;
+		int expectedStatus = 400;
 
 		assertThat(result.getResponse().getStatus()).isEqualTo(expectedStatus);
 	}
 	
 	@Test
 	public void checkGetReceiptWhenThrowServiceExceptionShouldReturn400Status() throws Exception {
-		final String purchaseParamName = "purchase";
-		final String purchaseParamValue = "1-3";
+		String purchaseParamName = "purchase";
+		String purchaseParamValue = "1-3";
 
-		final String discountCardParamName = "card";
-		final String discountCardParamValue = "card-123456789";
+		String discountCardParamName = "card";
+		String discountCardParamValue = "card-123456789";
 
 		Mockito.when(purchaseServiceMock.buyPurchases(Mockito.anyMap())).thenThrow(ServiceException.class);
 
@@ -122,7 +133,7 @@ public class ReceiptControllerTest {
 				.param(purchaseParamName, purchaseParamValue).param(discountCardParamName, discountCardParamValue))
 				.andReturn();
 
-		final int expectedStatus = 400;
+		int expectedStatus = 400;
 
 		assertThat(result.getResponse().getStatus()).isEqualTo(expectedStatus);
 	}

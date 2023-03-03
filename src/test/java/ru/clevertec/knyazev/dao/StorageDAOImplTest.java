@@ -24,7 +24,7 @@ public class StorageDAOImplTest {
 
 	@Test
 	public void checkIsStorageExistsByProductIdShouldReturnTrue() {
-		final Long inputProductId = 2L;
+		Long inputProductId = 2L;
 
 		boolean actualResult = storageDAOImpl.isStorageExistsByProductId(inputProductId);
 
@@ -33,7 +33,7 @@ public class StorageDAOImplTest {
 
 	@Test
 	public void checkIsStorageExistsByProductIdOnNullProductIdShouldReturnFalse() {
-		final Long inputProductId = null;
+		Long inputProductId = null;
 
 		boolean actualResult = storageDAOImpl.isStorageExistsByProductId(inputProductId);
 
@@ -42,7 +42,7 @@ public class StorageDAOImplTest {
 
 	@Test
 	public void checkIsStorageExistsByProductIdOnBadProductIdShouldReturnFalse() {
-		final Long inputProductId = 0L;
+		Long inputProductId = 0L;
 
 		boolean actualResult = storageDAOImpl.isStorageExistsByProductId(inputProductId);
 
@@ -51,7 +51,7 @@ public class StorageDAOImplTest {
 
 	@Test
 	public void checkGetProductQuantityInStoragesShouldReturnProductQuantity() {
-		final Long inputProductId = 2L;
+		Long inputProductId = 2L;
 
 		BigDecimal expectedProductQuantity = new BigDecimal(3);
 		expectedProductQuantity = expectedProductQuantity.setScale(3, RoundingMode.HALF_UP);
@@ -62,7 +62,7 @@ public class StorageDAOImplTest {
 
 	@Test
 	public void checkGetProductQuantityInStoragesOnNullIdShouldReturnZero() {
-		final Long inputProductId = null;
+		Long inputProductId = null;
 
 		BigDecimal expectedProductQuantity = new BigDecimal("0").setScale(3, RoundingMode.HALF_UP);
 
@@ -73,7 +73,7 @@ public class StorageDAOImplTest {
 
 	@Test
 	public void checkGetProductQuantityInStoragesOnBadIdShoulReturnZero() {
-		final Long inputProductId = 0L;
+		Long inputProductId = 0L;
 
 		BigDecimal expectedProductQuantity = new BigDecimal("0").setScale(3, RoundingMode.HALF_UP);
 
@@ -84,8 +84,8 @@ public class StorageDAOImplTest {
 
 	@Test
 	public void checkGetProductGroupInStoragesByIdShouldReturnStorageList() {
-		final Long inputProductId = 2L;
-		final int expectedGroupSize = 2;
+		Long inputProductId = 2L;
+		int expectedGroupSize = 2;
 
 		List<Storage> actualGroup = storageDAOImpl.getProductGroupInStoragesById(inputProductId);
 
@@ -97,7 +97,7 @@ public class StorageDAOImplTest {
 
 	@Test
 	public void checkGetProductGroupInStoragesByIdOnNullIdShouldReturnEmptyList() {
-		final Long inputProductId = null;
+		Long inputProductId = null;
 
 		List<Storage> actualGroup = storageDAOImpl.getProductGroupInStoragesById(inputProductId);
 
@@ -106,7 +106,7 @@ public class StorageDAOImplTest {
 
 	@Test
 	public void checkGetProductGroupInStoragesByIdOnBadIdShouldReturnEmptyList() {
-		final Long inputProductId = 0L;
+		Long inputProductId = 0L;
 
 		List<Storage> actualGroup = storageDAOImpl.getProductGroupInStoragesById(inputProductId);
 
@@ -116,9 +116,17 @@ public class StorageDAOImplTest {
 	@Test
 	public void checkUpdateStorageShouldReturnUpdatedStorage() {
 		Long inputId = 4L;
-		Storage updatingStorage = Storage.builder().id(inputId)
-				.product(Product.builder().id(13L).description("Test product").isAuction(false).build()).unit(Unit.кг)
-				.price(new BigDecimal(6.44)).quantity(new BigDecimal(2.596)).build();
+		Storage updatingStorage = Storage.builder()
+				.id(inputId)
+				.product(Product.builder()
+						.id(13L)
+						.description("Test product")
+						.isAuction(false)
+						.build())
+				.unit(Unit.kg)
+				.price(new BigDecimal(6.44))
+				.quantity(new BigDecimal(2.596))
+				.build();
 
 		Storage updatedStorage = storageDAOImpl.updateStorage(updatingStorage);
 
@@ -128,9 +136,17 @@ public class StorageDAOImplTest {
 	@Test
 	public void checkUpdateStorageOnNullStorageIdShouldReturnNull() {
 		Long inputId = null;
-		Storage updatingStorage = Storage.builder().id(inputId)
-				.product(Product.builder().id(13L).description("Test product").isAuction(false).build()).unit(Unit.кг)
-				.price(new BigDecimal(6.44)).quantity(new BigDecimal(2.596)).build();
+		Storage updatingStorage = Storage.builder()
+				.id(inputId)
+				.product(Product.builder()
+						.id(13L)
+						.description("Test product")
+						.isAuction(false)
+						.build())
+				.unit(Unit.kg)
+				.price(new BigDecimal(6.44))
+				.quantity(new BigDecimal(2.596))
+				.build();
 
 		Storage updatedStorage = storageDAOImpl.updateStorage(updatingStorage);
 

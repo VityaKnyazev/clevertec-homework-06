@@ -22,17 +22,16 @@ public class DiscountCardNumberValidatorTest {
 	@ParameterizedTest
 	@ValueSource(strings = {"1234f6789", "fff555fff", "1234f6787", "ggggggggg"})
 	public void checkValidateShouldDoesntThrowValidatorException(String cardNumber) {
-		final DiscountCardDTO discountCardDTO = new DiscountCardDTO(cardNumber);
+		DiscountCardDTO discountCardDTO = new DiscountCardDTO(cardNumber);
 		
 		assertThatCode(() -> discountCardNumberValidator.validate(discountCardDTO)).doesNotThrowAnyException();
 	}
 	
-	//TODO Fix when "         " input here -> 11 if (t == null || t.getNumber() == null || t.getNumber().length() != LENGTH)
 	@ParameterizedTest
 	@NullAndEmptySource
-	@ValueSource(strings = {"f", "fff555ffff", "1234f67879", " ", "", "123", "\r\n"})
+	@ValueSource(strings = {"f", "fff555ffff", "1234f67879", " ", "", "123", "\r\n", "         ", "\r\n    \r\n "})
 	public void checkValidateShouldThrowValidatorException(String cardNumber) {
-		final DiscountCardDTO discountCardDTO = new DiscountCardDTO(cardNumber);
+		DiscountCardDTO discountCardDTO = new DiscountCardDTO(cardNumber);
 		
 		assertThatThrownBy(() -> discountCardNumberValidator.validate(discountCardDTO)).isInstanceOf(ValidatorException.class);
 	}

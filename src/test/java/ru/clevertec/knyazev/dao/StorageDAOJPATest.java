@@ -2,8 +2,6 @@ package ru.clevertec.knyazev.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.Mockito.only;
-import static org.mockito.Mockito.times;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -37,8 +35,8 @@ public class StorageDAOJPATest {
 
 	@Test
 	public void checkIsStorageExistsByProductIdShouldReturnTrue() {
-		final Long inputProductId = 3L;
-		final Number expectedRowQuntity = 2L;
+		Long inputProductId = 3L;
+		Number expectedRowQuntity = 2L;
 
 		Mockito.when(entityManagerMock.createNativeQuery(Mockito.anyString())).thenReturn(queryMock);
 		Mockito.when(queryMock.setParameter(Mockito.anyInt(), Mockito.longThat(id -> (id != null) && (id > 0L))))
@@ -52,8 +50,8 @@ public class StorageDAOJPATest {
 
 	@Test
 	public void checkIsStorageExistsByProductIdShouldReturnFalse() {
-		final Long inputProductId = 5L;
-		final Number expectedRowQuntity = 0L;
+		Long inputProductId = 5L;
+		Number expectedRowQuntity = 0L;
 
 		Mockito.when(entityManagerMock.createNativeQuery(Mockito.anyString())).thenReturn(queryMock);
 		Mockito.when(queryMock.setParameter(Mockito.anyInt(), Mockito.longThat(id -> (id != null) && (id > 0L))))
@@ -67,8 +65,8 @@ public class StorageDAOJPATest {
 
 	@Test
 	public void checkGetProductQuantityInStoragesShouldReturnProductQuantity() {
-		final Long inputProductId = 8L;
-		final Number expectedProductQuntity = 5.584f;
+		Long inputProductId = 8L;
+		Number expectedProductQuntity = 5.584f;
 		BigDecimal expectedProductQuntityResult = new BigDecimal(expectedProductQuntity.floatValue())
 				.setScale(Settings.QUANTITY_SCALE_VALUE, RoundingMode.HALF_UP);
 
@@ -85,17 +83,30 @@ public class StorageDAOJPATest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void checkGetProductGroupInStoragesByIdShouldReturnStorageList() {
-		final long inputProductId = 1L;
+		long inputProductId = 1L;
 
-		Product expectedProduct = Product.builder().id(inputProductId).description("test product description")
-				.isAuction(false).build();
+		Product expectedProduct = Product.builder()
+				.id(inputProductId)
+				.description("test product description")
+				.isAuction(false)
+				.build();
 		List<Storage> expectedProductsGroup = new ArrayList<>() {
 			private static final long serialVersionUID = 7644547358945072008L;
 			{
-				add(Storage.builder().id(1L).product(expectedProduct).unit(Unit.кг).price(new BigDecimal(1.95))
-						.quantity(new BigDecimal(8)).build());
-				add(Storage.builder().id(2L).product(expectedProduct).unit(Unit.кг).price(new BigDecimal(2.35))
-						.quantity(new BigDecimal(6.555)).build());
+				add(Storage.builder()
+						.id(1L)
+						.product(expectedProduct)
+						.unit(Unit.kg)
+						.price(new BigDecimal(1.95))
+						.quantity(new BigDecimal(8))
+						.build());
+				add(Storage.builder()
+						.id(2L)
+						.product(expectedProduct)
+						.unit(Unit.kg)
+						.price(new BigDecimal(2.35))
+						.quantity(new BigDecimal(6.555))
+						.build());
 			}
 		};
 
@@ -118,7 +129,7 @@ public class StorageDAOJPATest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void checkGetProductGroupInStoragesByIdShouldReturnEmptyStorageList() {
-		final Long inputProductId = 62L;
+		Long inputProductId = 62L;
 		List<Storage> expectedProductGroup = null;
 
 		TypedQuery<Storage> typedQueryMock = ((TypedQuery<Storage>) Mockito.mock(TypedQuery.class));
@@ -155,26 +166,45 @@ public class StorageDAOJPATest {
 
 	@Test
 	public void checkUpdateStorageShouldReturnStorage() {
-		Product product = Product.builder().id(1L).description("test product description").isAuction(false).build();
-		Storage updatingStorage = Storage.builder().id(1L).product(product).unit(Unit.кг).price(new BigDecimal(1.95))
-				.quantity(new BigDecimal(8)).build();
+		Product product = Product.builder()
+				.id(1L)
+				.description("test product description")
+				.isAuction(false)
+				.build();
+		Storage updatingStorage = Storage.builder()
+				.id(1L)
+				.product(product)
+				.unit(Unit.kg)
+				.price(new BigDecimal(1.95))
+				.quantity(new BigDecimal(8))
+				.build();
 
 		Mockito.doNothing().when(entityManagerMock).persist(Mockito.any(Storage.class));
 
 		Storage actualStorage = storageDAOJPA.updateStorage(updatingStorage);
 
 		ArgumentCaptor<Storage> storageCaptor = ArgumentCaptor.forClass(Storage.class);
-		Mockito.verify(entityManagerMock, only()).persist(storageCaptor.capture());
+		Mockito.verify(entityManagerMock).persist(storageCaptor.capture());
 
 		assertThat(actualStorage).isEqualTo(storageCaptor.getValue());
 	}
 
 	@Test
 	public void checkUpdateStorageOnNullIdShouldReturnNull() {
-		Product product = Product.builder().id(1L).description("test product description").isAuction(false).build();
-		final Long updatingStorageId = null;
-		Storage updatingStorage = Storage.builder().id(updatingStorageId).product(product).unit(Unit.кг)
-				.price(new BigDecimal(1.95)).quantity(new BigDecimal(8)).build();
+		Product product = Product.builder()
+				.id(1L)
+				.description("test product description")
+				.isAuction(false)
+				.build();
+		
+		Long updatingStorageId = null;
+		Storage updatingStorage = Storage.builder()
+				.id(updatingStorageId)
+				.product(product)
+				.unit(Unit.kg)
+				.price(new BigDecimal(1.95))
+				.quantity(new BigDecimal(8))
+				.build();
 
 		Storage actualStorage = storageDAOJPA.updateStorage(updatingStorage);
 
@@ -183,8 +213,8 @@ public class StorageDAOJPATest {
 
 	@Test
 	public void whenDeleteStorage() {
-		final Long deletingStorageId = 5L;
-		final int executedQuantity = 1;
+		Long deletingStorageId = 5L;
+		int executedQuantity = 1;
 
 		Mockito.when(entityManagerMock.createQuery(Mockito.anyString())).thenReturn(queryMock);
 		Mockito.when(queryMock.setParameter(Mockito.anyInt(), Mockito.longThat(id -> (id != null) && (id > 0L))))
@@ -193,7 +223,7 @@ public class StorageDAOJPATest {
 
 		storageDAOJPA.deleteStorage(deletingStorageId);
 
-		Mockito.verify(queryMock, times(1)).executeUpdate();
+		Mockito.verify(queryMock).executeUpdate();
 	}
 
 }

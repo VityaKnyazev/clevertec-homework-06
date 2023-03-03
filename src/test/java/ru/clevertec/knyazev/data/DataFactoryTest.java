@@ -30,8 +30,8 @@ public class DataFactoryTest {
 
 	@Test
 	public void checkGetDataReaderWriterAndStandardReadBadArgumentsShouldThrowIOException() {
-		final String inputSource = "standard";
-		final String outputSource = "file";
+		String inputSource = "standard";
+		String outputSource = "file";
 
 		args = new String[] { inputSource, outputSource };
 
@@ -43,8 +43,8 @@ public class DataFactoryTest {
 
 	@Test
 	public void checkGetDataReaderWriterAndFileReadConsoleWriteShouldDoesntThrowAnyException() {
-		final String inputSource = "file";
-		final String outputSource = "console";
+		String inputSource = "file";
+		String outputSource = "console";
 
 		args = new String[] { inputSource, outputSource, "1.txt", "2.txt" };
 
@@ -56,8 +56,8 @@ public class DataFactoryTest {
 
 	@Test
 	public void checkGetDataReaderWriterAndFileReadConsoleWriteShouldThrowIOException() {
-		final String inputSource = "file";
-		final String outputSource = "console";
+		String inputSource = "file";
+		String outputSource = "console";
 
 		args = new String[] { inputSource, outputSource, "1.txt" };
 
@@ -69,7 +69,7 @@ public class DataFactoryTest {
 
 	@Test
 	public void checkGetDataReaderWriterOnBadArgsShouldThrowIOException() {
-		final String inputSource = "file";
+		String inputSource = "file";
 
 		args = new String[] { inputSource };
 
@@ -78,8 +78,8 @@ public class DataFactoryTest {
 
 	@Test
 	public void checkGetDataReaderWriterOnBadInputSourceShouldThrowIOException() {
-		final String inputSource = "filter";
-		final String outputSource = "console";
+		String inputSource = "filter";
+		String outputSource = "console";
 
 		args = new String[] { inputSource, outputSource, "1-15.55" };
 
@@ -91,8 +91,8 @@ public class DataFactoryTest {
 
 	@Test
 	public void checkGetDataReaderWriterOnBadOutputSourceShouldThrowIOException() {
-		final String inputSource = "console";
-		final String outputSource = "vasya";
+		String inputSource = "console";
+		String outputSource = "vasya";
 
 		args = new String[] { inputSource, outputSource, "1-15.55" };
 

@@ -46,7 +46,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 			BigDecimal quantity = productsDTOQuantities.getValue();
 
 			List<Storage> groupProductInStorages = storageService.buyProductFromStorages(productDTO.getId(), quantity);
-			boughtProductsInStorages.put(productDTO.getId(), groupProductInStorages);
+			if (!groupProductInStorages.isEmpty()) {
+				boughtProductsInStorages.put(productDTO.getId(), groupProductInStorages);
+			}
 		}
 
 		if (boughtProductsInStorages.isEmpty())

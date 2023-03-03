@@ -18,8 +18,8 @@ public class DiscountCardDAOImplTest {
 
 	@Test
 	public void checkGetDiscountCardByNumberShouldReturnDiscountCard() {
-		final String inputNumber = "15fd20181";
-		final Long expectedId = 1L;
+		String inputNumber = "15fd20181";
+		Long expectedId = 1L;
 
 		DiscountCard actualDiscountCard = discountCardDAOImpl.getDiscountCardByNumber(inputNumber);
 
@@ -31,7 +31,7 @@ public class DiscountCardDAOImplTest {
 
 	@Test
 	public void checkGetDiscountCardByNumberOnNullNumberShouldReturnNull() {
-		final String inputNumber = null;
+		String inputNumber = null;
 
 		DiscountCard actualDiscountCard = discountCardDAOImpl.getDiscountCardByNumber(inputNumber);
 
@@ -40,7 +40,7 @@ public class DiscountCardDAOImplTest {
 
 	@Test
 	public void checkGetDiscountCardByNumberOnBadNumberShouldReturnNull() {
-		final String inputNumber = "1235fg44";
+		String inputNumber = "1235fg44";
 
 		DiscountCard actualDiscountCard = discountCardDAOImpl.getDiscountCardByNumber(inputNumber);
 
@@ -49,7 +49,7 @@ public class DiscountCardDAOImplTest {
 
 	@Test
 	public void checkSaveDiscountCardShouldReturnSavedDiscountCard() {
-		final Long savingId = null;
+		Long savingId = null;
 
 		DiscountCard savingDiscountCard = DiscountCard.builder().id(savingId).number("15fd20193").discountValue(10)
 				.build();

@@ -62,8 +62,8 @@ public class PurchaseConverterTest {
 
 		BigDecimal actualproductWithId2Quantity = null;
 
-		final Long productId1 = 1L;
-		final Long productId2 = 2L;
+		Long productId1 = 1L;
+		Long productId2 = 2L;
 
 		for (Map.Entry<ProductDTO, BigDecimal> productQuantity : products.entrySet()) {
 			if (productQuantity.getKey().getId() == productId1) {

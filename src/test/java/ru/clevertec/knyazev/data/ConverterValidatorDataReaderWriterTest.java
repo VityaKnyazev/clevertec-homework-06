@@ -1,8 +1,7 @@
 package ru.clevertec.knyazev.data;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -17,7 +16,7 @@ import ru.clevertec.knyazev.data.exception.ValidatorException;
 import ru.clevertec.knyazev.dto.DiscountCardDTO;
 import ru.clevertec.knyazev.dto.ProductDTO;
 
-public class ConverterValidatorDataReaderWriterTests {
+public class ConverterValidatorDataReaderWriterTest {
 	private ConverterValidatorDataReaderWriter converterValidatorDataReaderWriter;
 	
 	@BeforeEach
@@ -30,23 +29,22 @@ public class ConverterValidatorDataReaderWriterTests {
 	}
 		
 	@Test
-	public void whenReadPurchases() throws IOException, ConverterException, ValidatorException {			
+	public void checkReadPurchasesShouldReturnPurchasesMap() throws IOException, ConverterException, ValidatorException {			
 		Map<ProductDTO, BigDecimal> actualPurchases = converterValidatorDataReaderWriter.readPurchases();
 	
 		assertAll(() -> {
-			assertNotNull(actualPurchases);
-			assertEquals(3, actualPurchases.size());
-		});
-		
+			assertThat(actualPurchases).isNotNull();
+			assertThat(actualPurchases).hasSize(3);
+		});		
 	}
 	
 	@Test
-	public void whenReadDiscountCards() throws IOException, ConverterException, ValidatorException {			
+	public void checkReadDiscountCardsShouldReturnDiscountCardsMap() throws IOException, ConverterException, ValidatorException {			
 		 Set<DiscountCardDTO> actualDiscountCards = converterValidatorDataReaderWriter.readDiscountCards();
 	
 		assertAll(() -> {
-			assertNotNull(actualDiscountCards);
-			assertEquals(1, actualDiscountCards.size());
+			assertThat(actualDiscountCards).isNotNull();
+			assertThat(actualDiscountCards).hasSize(1);
 		});
 		
 	}

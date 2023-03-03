@@ -1,7 +1,6 @@
 package ru.clevertec.knyazev.rest.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ import ru.clevertec.knyazev.service.exception.ServiceException;
 import ru.clevertec.knyazev.view.Receipt;
 import ru.clevertec.knyazev.view.ReceiptBuilderImpl;
 
-public class ReceiptControllerTests {
+public class ReceiptControllerTest {
 	private PurchaseService purchaseServiceMock;
 	private DiscountCardService discountCardServiceMock;
 	private DiscountProductGroupService discountProductGroupServiceMock;
@@ -63,7 +62,7 @@ public class ReceiptControllerTests {
 	}
 
 	@Test
-	public void whenGetReceipt() throws Exception {
+	public void checkGetReceiptShouldReturnReceiptOkStatus() throws Exception {
 		final String purchaseParamName = "purchase";
 		final String purchaseParamValue = "1-3";
 
@@ -77,24 +76,24 @@ public class ReceiptControllerTests {
 				.andReturn();
 
 		final int expectedStatus = 200;
-		final String expectedContentType = "text/plain; charset=utf-8";
+		final String expectedContentType = "text/plain;charset=utf-8";
 
-		assertNotNull(expectedContentType, result.getResponse().getContentType());
-		assertEquals(expectedStatus, result.getResponse().getStatus());
+		assertThat(result.getResponse().getContentType()).isEqualTo(expectedContentType);
+		assertThat(result.getResponse().getStatus()).isEqualTo(expectedStatus);
 	}
 
 	@Test
-	public void whenGetReceiptWithoutPurchaseParam() throws Exception {
+	public void checkGetReceiptWithoutPurchaseParamShouldReturn400Status() throws Exception {
 
 		MvcResult result = mockMVC.perform(MockMvcRequestBuilders.get(RECEIPT_REQUEST)).andReturn();
 
 		final int expectedStatus = 400;
 
-		assertEquals(expectedStatus, result.getResponse().getStatus());
+		assertThat(result.getResponse().getStatus()).isEqualTo(expectedStatus);
 	}
 
 	@Test
-	public void whenGetReceiptOnEmptyPurchase() throws Exception {
+	public void checkGetReceiptOnEmptyPurchaseShouldReturn400Status() throws Exception {
 		final String purchaseParamName = "purchase";
 		final String purchaseParamValue = "";
 
@@ -106,11 +105,11 @@ public class ReceiptControllerTests {
 
 		final int expectedStatus = 400;
 
-		assertEquals(expectedStatus, result.getResponse().getStatus());
+		assertThat(result.getResponse().getStatus()).isEqualTo(expectedStatus);
 	}
 	
 	@Test
-	public void whenGetReceiptAndBuyPurchaseThrowsServiceException() throws Exception {
+	public void checkGetReceiptWhenThrowServiceExceptionShouldReturn400Status() throws Exception {
 		final String purchaseParamName = "purchase";
 		final String purchaseParamValue = "1-3";
 
@@ -125,6 +124,6 @@ public class ReceiptControllerTests {
 
 		final int expectedStatus = 400;
 
-		assertEquals(expectedStatus, result.getResponse().getStatus());
+		assertThat(result.getResponse().getStatus()).isEqualTo(expectedStatus);
 	}
 }

@@ -1,7 +1,7 @@
 package ru.clevertec.knyazev.data;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import ru.clevertec.knyazev.util.Settings;
 
-public class FileDataWriterTests {
+public class FileDataWriterTest {
 	private Path outputFileDir;
 	private final String outputFileName = "testOutput.txt";
 
@@ -33,26 +33,26 @@ public class FileDataWriterTests {
 	}
 	
 	@Test
-	public void whenWriteData() throws IOException {
+	public void checkWriteDataShouldCreateFileWithData() throws IOException {
 		String outputData = "string test data of receipt";
 		
 		fileDataWriter.writeData(outputData);
 		
-		assertEquals(outputData, Files.readString(outputFileDir));
+		assertThat(Files.readString(outputFileDir)).isEqualTo(outputData);
 	}
 	
 	@Test
-	public void whenWriteEmptyData() throws IOException {
+	public void checkWriteDataOnEmptyDataShouldThrowIOException() {
 		String outputData = "";		
 		
-		assertThrows(IOException.class, () -> fileDataWriter.writeData(outputData));
+		assertThatThrownBy(() -> fileDataWriter.writeData(outputData)).isInstanceOf(IOException.class);
 	}
 	
 	@Test
-	public void whenWriteNullData() throws IOException {
-		String outputData = "";		
+	public void checkWriteDataOnNullDataShouldThrowIOException() {
+		String outputData = null;		
 		
-		assertThrows(IOException.class, () -> fileDataWriter.writeData(outputData));
+		assertThatThrownBy(() -> fileDataWriter.writeData(outputData)).isInstanceOf(IOException.class);
 	}
 	
 }

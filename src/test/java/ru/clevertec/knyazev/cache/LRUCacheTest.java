@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class LRUCacheTest {
-	LRUCache<Long, String> lruCache;
+	private LRUCache<Long, String> lruCache;
 	
 	@BeforeEach
 	public void setUp() {
@@ -15,7 +15,7 @@ public class LRUCacheTest {
 	}
 	
 	@Test
-	public void checkPutShouldAddToCash() {		
+	public void checkPutShouldAddToCache() {		
 		assertThatCode(() -> lruCache.put(1L, "First cashed element")).doesNotThrowAnyException();
 	}
 	
@@ -59,6 +59,15 @@ public class LRUCacheTest {
 		String actualValue = lruCache.get(inputKey);
 		
 		assertThat(actualValue).isNull();
+	}
+	
+	@Test
+	public void checkRemoveShouldRemoveFromeCache() {
+		lruCache.put(1L, "First cashed element");
+		lruCache.put(2L, "Second cashed element");
+		lruCache.put(3L, "Third cashed element");
+		
+		assertThatCode(() -> lruCache.remove(3L)).doesNotThrowAnyException();
 	}
 	
 }

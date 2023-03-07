@@ -49,3 +49,12 @@ Insert Into discount_card(number, discount_value) values('15fd20189', 7);
 Insert Into discount_card(number, discount_value) values('15fd20190', 8);
 Insert Into discount_card(number, discount_value) values('15fd20191', 5);
 Insert Into discount_card(number, discount_value) values('15fd20192', 1);
+
+Insert Into seller(name, family_name, email, role) values('Sergo', 'Egorov', 'sergo@mail.ru', 'cashier');
+Insert Into seller(name, family_name, email, role) values('Anton', 'Antonov', 'anton@mail.ru', 'manager');
+Insert Into seller(name, family_name, email, role) values('Andrey', 'Ivanov', 'andrey@mail.ru', 'cashier');
+Insert Into seller(name, family_name, email, role) values('Vano', 'Sergeev', 'vano@mail.ru', 'consultant');
+Insert Into seller(name, family_name, email, role) values('Miko', 'Giro', 'miko@mail.ru', 'cashier');
+Insert Into seller(name, family_name, email, role) values('Albert', 'Epshtein', 'albert@mail.ru', 'consultant');
+Insert Into seller(name, family_name, email, role) values('Alik', 'Merov', 'alik@mail.ru', 'cashier');
+Insert Into seller(name, family_name, email, role) values('Mike', 'Pavlov', 'mike@mail.ru', 'manager');

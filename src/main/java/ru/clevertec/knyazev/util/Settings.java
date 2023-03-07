@@ -15,6 +15,11 @@ public final class Settings {
 	public static final String OUTPUT_FOLDER = "src/main/resources/ru/clevertec/knyazev/";
 	public static final String OUTPUT_FILE_NAME = "check.txt";
 	public static final String INPUT_FOLDER = "src/main/resources/ru/clevertec/knyazev/";
+	//Cache algorithm settings
+	public static final String CACHE_FILE_SETTINGS = "application.yaml";
+	public static final String CACHE_OBJECT = "cache";
+	public static final String CACHE_ALGORITHM = "algorithm";
+	public static final String CACHE_MAX_SIZE = "size";
 	
 	private Settings() {}
 }

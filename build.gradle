@@ -16,6 +16,8 @@ ext {
 	springModulesVersion = '6.0.3'
 	hibernateVersion = '6.1.6.Final'
 	jakartaServletApiVersion = '6.0.0'
+	jacksonVersion = '2.14.2'
+	snakeYamlVersion = '2.0'
 	
 	lombokVersion = '1.18.26'
 	slf4jApiVersion = '2.0.6'
@@ -67,6 +69,8 @@ dependencies {
 	implementation "org.springframework:spring-orm:$springModulesVersion"
 	implementation "org.hibernate.orm:hibernate-core:$hibernateVersion"
 	
+	implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"	
+	implementation "org.yaml:snakeyaml:$snakeYamlVersion"
 
 	implementation "org.postgresql:postgresql:$postgresqlConVersion"
 	implementation "com.zaxxer:HikariCP:$hikariCPVersion"

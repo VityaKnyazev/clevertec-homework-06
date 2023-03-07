@@ -8,9 +8,12 @@ import java.util.Map;
 
 /**
  * 
- * Current class is a realization of LRU caching mechanism.
- * Value is in cache while using. When it become old than V value and K key
- * will be deleted from cache.
+ * Current class is a realization of LRU caching mechanism. Value is in cache
+ * while using. When it become old than V value and K key will be deleted from
+ * cache.
+ * 
+ * For correct algorithm work in classes of types K,V that are used in LRUCache
+ * must be overriding equals and hashcode methods.
  * 
  * @author Vitya Knyazev
  *
@@ -18,14 +21,14 @@ import java.util.Map;
  * @param <V> value that storing in cache.
  */
 public class LRUCache<K, V> implements Cache<K, V> {
-	private final Integer maxCahcheSize;
+	private final Integer maxCacheSize;
 
 	private Map<K, V> lruCache;
 	private LinkedList<V> cacheOld;
 
-	public LRUCache(Integer maxCahcheSize) {
-		this.maxCahcheSize = maxCahcheSize;
-		
+	public LRUCache(Integer maxCacheSize) {
+		this.maxCacheSize = maxCacheSize;
+
 		lruCache = new HashMap<>();
 		cacheOld = new LinkedList<>();
 	}
@@ -42,7 +45,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
 				replaceValueInCacheOld(oldValue, value);
 			}
 		} else {
-			if (lruCacheSize < maxCahcheSize) {
+			if (lruCacheSize < maxCacheSize) {
 				lruCache.put(key, value);
 				cacheOld.addFirst(value);
 			} else {
@@ -67,6 +70,30 @@ public class LRUCache<K, V> implements Cache<K, V> {
 		}
 
 		return value;
+	}
+
+	@Override
+	public void remove(K key) {
+
+		if (lruCache.containsKey(key)) {
+			V removedValue = lruCache.remove(key);
+
+			if (cacheOld.getLast().equals(removedValue)) {
+				cacheOld.removeLast();
+			} else {
+				Iterator<V> cacheOldIterator = cacheOld.iterator();
+
+				while (cacheOldIterator.hasNext()) {
+
+					if (cacheOldIterator.next().equals(removedValue)) {
+						cacheOldIterator.remove();
+						break;
+					}
+				}
+
+			}
+		}
+		
 	}
 
 	/**
@@ -98,10 +125,10 @@ public class LRUCache<K, V> implements Cache<K, V> {
 
 	/**
 	 * 
-	 * Rebasing time cache when using V value that saving in cache
-	 * Than value becomes "younger".
+	 * Rebasing time cache when using V value that saving in cache. Than value
+	 * becomes "younger".
 	 * 
-	 * @param value V that should be move to the head of cache as the most "young" 
+	 * @param value V that should be moved to the head of cache as the most "young"
 	 */
 	private void rebaseCacheOld(V value) {
 		if (cacheOld.getLast().equals(value)) {

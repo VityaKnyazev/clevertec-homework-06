@@ -3,7 +3,8 @@ package ru.clevertec.knyazev.cache;
 /**
  * 
  * Representation of caching mechanism using cashing algorithms.
- * For caching some V value on K key. 
+ * For caching some V value on K key.
+ * 
  * 
  * @author Vitya Knyazev
  *
@@ -28,4 +29,12 @@ public interface Cache<K, V> {
 	 * @return V value from cache on input K key
 	 */
 	V get(K key);
+	
+	/**
+	 * 
+	 * Remove cached V value on input K key
+	 * 
+	 * @param key for identifying and fetching cached value
+	 */
+	void remove(K key);
 }

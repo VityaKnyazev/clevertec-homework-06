@@ -28,7 +28,7 @@ import ru.clevertec.knyazev.view.ReceiptBuilderImpl;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"ru.clevertec.knyazev.dao", "ru.clevertec.knyazev.rest.controller"})
+@ComponentScan(basePackages = {"ru.clevertec.knyazev.dao", "ru.clevertec.knyazev.service", "ru.clevertec.knyazev.rest.controller"})
 public class AppConfig {
 
 	@Bean

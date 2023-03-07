@@ -45,4 +45,14 @@ public class Seller {
 	public String toString() {
 		return "{\"id\":" + id + ",\"name\":" + "\"" + name + "\"" + ",\"familyName\":" + "\"" + familyName + "\"" + ",\"email\":" + "\"" + email + "\"" + ",\"role\":" + "\"" + role + "\"" + "}";
 	}
+	
+	public String toXML() {
+		return "<seller>" + System.lineSeparator()
+				+ "<id>" + id + "</id>" + System.lineSeparator()
+				+ "<name>" + name + "</name>" + System.lineSeparator()
+				+ "<familyName>" + familyName + "</familyName>" + System.lineSeparator() 
+				+ "<email>" + email + "</email>" + System.lineSeparator()
+				+ "<role>" + role.name() + "</role>" + System.lineSeparator()
+				+ "</seller>";
+	}
 }

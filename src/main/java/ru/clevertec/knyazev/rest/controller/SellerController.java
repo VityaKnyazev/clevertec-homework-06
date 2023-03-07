@@ -32,69 +32,81 @@ public class SellerController {
 	public SellerController(SellerService sellerServiceImpl) {
 		this.sellerServiceImpl = sellerServiceImpl;
 	}
-
-	@GetMapping(value = "/sellers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	
+	/** 
+	 * For using JSON output undo committed strings and commit string below committed
+	 */
+	// @GetMapping(value = "/sellers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/sellers/{id}", produces = MediaType.APPLICATION_XML_VALUE)
 	@ResponseBody
 	public ResponseEntity<String> showSeller(@PathVariable Long id) {
 		Optional<Seller> seller = sellerServiceImpl.showSeller(id);
-		String sellerResult = (seller.isEmpty()) ? "{}" : seller.get().toString();
+//		String sellerResult = (seller.isEmpty()) ? "{}" : seller.get().toString();
+		String sellerResult = (seller.isEmpty()) ? "" : seller.get().toXML();
 		return new ResponseEntity<String>(sellerResult, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/sellers", produces = MediaType.APPLICATION_JSON_VALUE)
+	/** 
+	 * For using JSON output undo committed strings and commit string below committed
+	 */
+//	@GetMapping(value = "/sellers", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/sellers", produces = MediaType.APPLICATION_XML_VALUE)
 	@ResponseBody
 	public ResponseEntity<String> showAllSellers() {
 		List<Seller> sellers = sellerServiceImpl.showAllSellers();
 
-		String sellerResult = (sellers.size() == 0) ? "[]"
-				: sellers.stream().map(seller -> seller.toString()).collect(Collectors.joining(",", "[", "]"));
-		sellerResult = sellerResult.replaceFirst(",\\]$", "]");
+//		String sellerResult = (sellers.size() == 0) ? "[]"
+//				: sellers.stream().map(seller -> seller.toString()).collect(Collectors.joining(",", "[", "]"));
+		String sellerResult = (sellers.size() == 0) ? ""
+				: sellers.stream().map(seller -> seller.toXML())
+						.collect(Collectors.joining(System.lineSeparator(), "<sellers>", "</sellers>"));
+//		sellerResult = sellerResult.replaceFirst(",\\]$", "]");
 		return new ResponseEntity<String>(sellerResult, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/sellers", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<String> addSeller(@RequestBody Seller seller) {		
-		
+	public ResponseEntity<String> addSeller(@RequestBody Seller seller) {
+
 		try {
 			sellerValidator.validate(seller);
 			sellerServiceImpl.addSeller(seller);
 		} catch (ServiceException | ValidatorException e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);	
-		}		
-		
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+
 		String result = "Successfuly added" + System.lineSeparator() + seller.toString();
-		return new ResponseEntity<String>(result, HttpStatus.OK);	
+		return new ResponseEntity<String>(result, HttpStatus.OK);
 	}
-	
+
 	@PutMapping(value = "/sellers", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<String> changeSeller(@RequestBody Seller seller) {		
-		
+	public ResponseEntity<String> changeSeller(@RequestBody Seller seller) {
+
 		try {
 			sellerValidator.validate(seller);
 			sellerServiceImpl.changeSeller(seller);
 		} catch (ServiceException | ValidatorException e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);	
-		}		
-		
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+
 		String result = "Successfuly changed" + System.lineSeparator() + seller.toString();
-		return new ResponseEntity<String>(result, HttpStatus.OK);	
+		return new ResponseEntity<String>(result, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping(value = "/sellers", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<String> removeSeller(@RequestBody Seller seller) {		
-		
+	public ResponseEntity<String> removeSeller(@RequestBody Seller seller) {
+
 		try {
 			sellerValidator.validate(seller);
 			sellerServiceImpl.removeSeller(seller);
 		} catch (ServiceException | ValidatorException e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);	
-		}		
-		
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+
 		String result = "Successfuly removed";
-		return new ResponseEntity<String>(result, HttpStatus.OK);	
+		return new ResponseEntity<String>(result, HttpStatus.OK);
 	}
 
 }

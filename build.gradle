@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'io.freefair.lombok' version '8.4'
+}
+
+group = 'ru.clevertec.knyazev'
+version = '1.0-SNAPSHOT'
+
+ext {
+    assertjVersion = '3.24.2'
+    junitVersion = '5.9.2'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation "org.assertj:assertj-core:${assertjVersion}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+}
+
+java {
+    sourceCompatibility = JavaLanguageVersion.of(17)
+    targetCompatibility = JavaLanguageVersion.of(17)
+
+    compileJava.options.encoding = 'UTF-8'
+    compileTestJava.options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+}

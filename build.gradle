@@ -7,6 +7,9 @@ group = 'ru.clevertec.knyazev'
 version = '1.0-SNAPSHOT'
 
 ext {
+    snakeyamlVersion = '2.1'
+
+    mockitoVersion = '5.6.0'
     assertjVersion = '3.24.2'
     junitVersion = '5.9.2'
 }
@@ -16,10 +19,14 @@ repositories {
 }
 
 dependencies {
-    testImplementation "org.assertj:assertj-core:${assertjVersion}"
+    implementation "org.yaml:snakeyaml:$snakeyamlVersion"
 
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+
+    testImplementation "org.assertj:assertj-core:$assertjVersion"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 }
 
 java {

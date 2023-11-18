@@ -1,13 +1,26 @@
 plugins {
     id 'java'
     id 'io.freefair.lombok' version '8.4'
+    id 'org.liquibase.gradle' version '2.2.0'
 }
 
 group = 'ru.clevertec.knyazev'
 version = '1.0-SNAPSHOT'
 
 ext {
+    springVersion = '6.1.0'
+
+    postgresqlConVersion = '42.6.0'
+
+    hikariVersion = '5.1.0'
+
     snakeyamlVersion = '2.1'
+
+    slf4jApiVersion = '2.0.7'
+    logbackVersion = '1.4.11'
+
+    liquibaseVersion = '4.25.0'
+    piocliVersion = '4.7.5'
 
     mockitoVersion = '5.6.0'
     assertjVersion = '3.24.2'
@@ -19,9 +32,23 @@ repositories {
 }
 
 dependencies {
+    implementation "org.springframework:spring-context:$springVersion"
+    implementation "org.springframework:spring-jdbc:$springVersion"
+
+    implementation "org.postgresql:postgresql:$postgresqlConVersion"
+
+    implementation "com.zaxxer:HikariCP:$hikariVersion"
+
     implementation "org.yaml:snakeyaml:$snakeyamlVersion"
 
-    testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+    implementation "org.slf4j:slf4j-api:$slf4jApiVersion"
+    implementation "ch.qos.logback:logback-classic:$logbackVersion"
+
+    liquibaseRuntime "org.liquibase:liquibase-core:$liquibaseVersion"
+    liquibaseRuntime "info.picocli:picocli:$piocliVersion"
+    liquibaseRuntime "org.postgresql:postgresql:$postgresqlConVersion"
+
+    testImplementation "org.mockito:mockito-junit-jupiter:$mockitoVersion"
 
     testImplementation "org.assertj:assertj-core:$assertjVersion"
 
@@ -35,6 +62,18 @@ java {
 
     compileJava.options.encoding = 'UTF-8'
     compileTestJava.options.encoding = 'UTF-8'
+}
+
+liquibase {
+    activities {
+        government {
+            changeLogFile "/src/main/resources/liquibase/db-government-changelog.xml"
+            driver "org.postgresql.Driver"
+            url "jdbc:postgresql://localhost:5432/government?useUnicode=true&characterEncoding=UTF-8"
+            username "admin"
+            password "admin"
+        }
+    }
 }
 
 test {

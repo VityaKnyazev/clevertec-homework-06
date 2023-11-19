@@ -13,13 +13,18 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Represents proxy for PerssonDAO class for organization caching Person
+ */
 @Component
 @AllArgsConstructor(onConstructor_ = {@Autowired})
 public class PersonDaoProxy implements InvocationHandler {
     private PersonDAO personDAOImpl;
     private Cache<UUID, Person> personCache;
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         PersonDAOMethod personDAOMethod = PersonDAOMethod.findByName(method.getName());
@@ -36,6 +41,13 @@ public class PersonDaoProxy implements InvocationHandler {
         };
     }
 
+    /**
+     *
+     * Capture findById method of PersonDAO and Add to cache Person
+     *
+     * @param args array where 0 el - optional person to add to cache
+     * @return optional person from cache or dao
+     */
     private Optional<Person> whenFindByIdPerson(Object[] args) {
         Optional<Person> optionalPersonRes;
         UUID id = (UUID) args[0];
@@ -54,6 +66,15 @@ public class PersonDaoProxy implements InvocationHandler {
         return optionalPersonRes;
     }
 
+    /**
+     *
+     * Capture save or update methods of PersonDAO and Add to cache saved or updated Person
+     *
+     * @param args array where 0 el - person to add to cache
+     * @param personDAOMethod save or update method name
+     * @return saved or updated person, adding to cache
+     * @throws DAOException when saving or updating failed
+     */
     private Person whenSaveOrUpdatePerson(Object[] args, PersonDAOMethod personDAOMethod) throws DAOException {
         Person savingOrUpdatingPerson = (Person) args[0];
         Person savedOrUpdatedPerson = null;
@@ -67,6 +88,13 @@ public class PersonDaoProxy implements InvocationHandler {
         return savedOrUpdatedPerson;
     }
 
+    /**
+     *
+     * Remove person with given id from data source and cache
+     *
+     * @param args array where 0 el - person id
+     * @throws DAOException when removing person failed
+     */
     private void whenDeletePerson(Object[] args) throws DAOException {
         UUID deletingPersonUUID = (UUID) args[0];
 
@@ -74,6 +102,9 @@ public class PersonDaoProxy implements InvocationHandler {
         personCache.remove(deletingPersonUUID);
     }
 
+    /**
+     * Represents method names of PersonDAO class
+     */
     private enum PersonDAOMethod {
         findById, findAll, save, update, delete, undefined;
 

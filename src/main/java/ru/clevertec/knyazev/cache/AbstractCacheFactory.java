@@ -9,9 +9,7 @@ public abstract class AbstractCacheFactory {
     protected String CACHE_ALGORITHM;
     protected Integer DEFAULT_CACHE_SIZE;
 
-    public AbstractCacheFactory() {
-        YAMLParser yamlParser = new YAMLParser(PROPERTY_FILE);
-
+    public AbstractCacheFactory(YAMLParser yamlParser) {
         CACHE_ALGORITHM = yamlParser.getProperty("cache", "algorithm");
         DEFAULT_CACHE_SIZE = Integer.valueOf(
                 yamlParser.getProperty("cache", "size"));

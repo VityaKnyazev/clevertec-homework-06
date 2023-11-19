@@ -4,7 +4,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.clevertec.knyazev.config.AppConfig;
 import ru.clevertec.knyazev.dao.PersonDAO;
+import ru.clevertec.knyazev.data.PersonDTO;
 import ru.clevertec.knyazev.entity.Person;
+import ru.clevertec.knyazev.service.PersonService;
 
 import java.util.UUID;
 
@@ -12,19 +14,32 @@ public class Main {
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        PersonDAO personDAOImpl = context.getBean("personDAOImpl", PersonDAO.class);
-        Person savedPerson = personDAOImpl.save(Person.builder()
-                .name("Vano")
-                .surname("Patsuk")
-                .email("Vano@mail.ru")
-                .citizenship("Belarus")
-                .age(12)
-                .build());
+        PersonService personServiceImpl = context.getBean("personServiceImpl", PersonService.class);
 
-        savedPerson.setAge(14);
-        Person updatedPerson = personDAOImpl.update(savedPerson);
+        PersonDTO personDTO = PersonDTO.builder()
+                .name("Kolya")
+                .surname("Petrov")
+                .email("petyaI@mail.ru")
+                .citizenship("Russia")
+                .age(34)
+                .build();
 
-        System.out.printf("Hello %s%n", "spring context!");
+        PersonDTO savedPersonDTO = personServiceImpl.add(personDTO);
+
+        System.out.println(savedPersonDTO.toXML());
+
+        PersonDTO updatingPersonDTO = PersonDTO.builder()
+                .id(savedPersonDTO.id())
+                .name(savedPersonDTO.name())
+                .surname("Sidorov")
+                .email(savedPersonDTO.email())
+                .citizenship(savedPersonDTO.citizenship())
+                .age(savedPersonDTO.age())
+                .build();
+
+        personServiceImpl.update(updatingPersonDTO);
+
+        personServiceImpl.remove(updatingPersonDTO.id());
     }
 
 }

@@ -2,6 +2,9 @@ package ru.clevertec.knyazev.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +19,10 @@ import javax.sql.DataSource;
 import java.util.UUID;
 
 @Configuration
-@ComponentScan(basePackages = { "ru.clevertec.knyazev.dao.impl", "ru.clevertec.knyazev.dao.proxy" })
+@ComponentScan(basePackages = {"ru.clevertec.knyazev.dao.impl",
+        "ru.clevertec.knyazev.dao.proxy",
+        "ru.clevertec.knyazev.mapper",
+        "ru.clevertec.knyazev.service.impl"})
 public class AppConfig {
 
     private static final String PROPERTY_FILE = "application.yaml";
@@ -37,6 +43,14 @@ public class AppConfig {
     }
 
     @Bean
+    ValidatorFactory validatorFactory() {
+        return Validation.byDefaultProvider()
+                .configure()
+                .messageInterpolator(new ParameterMessageInterpolator())
+                .buildValidatorFactory();
+    }
+
+    @Bean
     DataSource hikariDataSource() {
         YAMLParser yamlParser = yamlParser();
 
@@ -52,7 +66,7 @@ public class AppConfig {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
+    JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(hikariDataSource());
     }
 }

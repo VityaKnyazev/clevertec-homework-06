@@ -2,6 +2,7 @@ package ru.clevertec.knyazev.service.impl;
 
 import jakarta.validation.ValidatorFactory;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.clevertec.knyazev.dao.PersonDAO;
@@ -19,6 +20,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@NoArgsConstructor
 @AllArgsConstructor
 public class PersonServiceImpl implements PersonService {
 

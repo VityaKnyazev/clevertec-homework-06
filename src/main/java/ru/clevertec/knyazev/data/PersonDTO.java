@@ -33,7 +33,7 @@ public record PersonDTO(
          * surname must be not null from 3 to 20 symbols
          */
         @NotNull(message = "Person surname must be not null")
-        @Size(min = 3, max = 20, message = "Person surname must contains from 3 to 10 symbols")
+        @Size(min = 3, max = 20, message = "Person surname must contains from 3 to 20 symbols")
         String surname,
 
         /**

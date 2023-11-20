@@ -139,7 +139,7 @@ public class PersonDAOImplTest {
         Person actualPerson = personDAOImpl.save(inputPerson);
 
         assertThat(actualPerson).isNotNull()
-                .has(new Condition<Person>(p -> p.getId().equals(expectedSavedUUID),
+                .has(new Condition<>(p -> p.getId().equals(expectedSavedUUID),
                         "saved UUID"));
 
     }

@@ -70,6 +70,10 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public PersonDTO add(PersonDTO personDTO) {
 
+        if (personDTO == null) {
+            throw new ServiceException(String.format(ADDING_UPDATING_ERROR, "person is null"));
+        }
+
         validatePersonDTO(personDTO);
 
         return personMapperImpl.toPersonDTO(
@@ -81,6 +85,10 @@ public class PersonServiceImpl implements PersonService {
      */
     @Override
     public void update(PersonDTO personDTO) {
+
+        if (personDTO == null) {
+            throw new ServiceException(String.format(ADDING_UPDATING_ERROR, "person is null"));
+        }
 
         validatePersonDTO(personDTO);
 
